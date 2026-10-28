@@ -262,7 +262,6 @@
             <div class="control-section">
                 <h3>2. Consultar Profissional (CPF)</h3>
                 <div class="search-group">
-                    <!-- Placeholder alterado para instruir o uso do CPF -->
                     <input type="text" id="searchInput" placeholder="Digite o CPF do profissional" disabled />
                     <button id="btnSearch" class="btn" disabled>Consultar</button>
                 </div>
@@ -279,7 +278,6 @@
                         <span class="info-label">Nome Completo</span>
                         <span class="info-value" id="lblNome"></span>
                     </div>
-                    <!-- Mantive o CPF visível pois é útil para validar de quem é a consulta -->
                     <div class="info-item">
                         <span class="info-label">CPF</span>
                         <span class="info-value" id="lblCPF"></span>
@@ -288,7 +286,11 @@
                         <span class="info-label">CBO</span>
                         <span class="info-value" id="lblCBO"></span>
                     </div>
-                    <!-- Novo campo de Desligamento oculto por padrão -->
+                    <!-- NOVO CAMPO: Descrição do CBO -->
+                    <div class="info-item">
+                        <span class="info-label">Descrição do CBO</span>
+                        <span class="info-value" id="lblDescricaoCBO"></span>
+                    </div>
                     <div class="info-item" id="boxDesligamento" style="display: none;">
                         <span class="info-label">Data de Desligamento</span>
                         <span class="info-value text-danger" id="lblDesligamento"></span>
@@ -303,7 +305,8 @@
                                 <th>DISTRITO</th>
                                 <th>CNES</th>
                                 <th>EAS</th>
-                                <th>CARGO</th>
+                                <!-- ALTERADO: Cargo para Descrição do CBO -->
+                                <th>DESCRIÇÃO DO CBO</th>
                                 <th>CBO</th>
                                 <th>INE</th>
                                 <th>EQUIPE</th>
@@ -332,6 +335,7 @@
         </div>
         <div class="footer-center">
             <img src="logo-did.png" alt="DID">
+            <div>Diretoria de Inteligência de Dados</div>
             <div>Gerência de Análise e Estatística</div>
             <div>DID © 2026</div>
         </div>
@@ -354,7 +358,6 @@
             if (e.key === 'Enter') searchProfessional();
         });
 
-        // Função que identifica se é "do servidor" ou "da servidora"
         function getGenero(nome) {
             const primeiroNome = nome.trim().split(' ')[0].toUpperCase();
             const finaisFemininos = ['A', 'Z'];
@@ -366,19 +369,14 @@
             return 'M'; 
         }
 
-        // Função para converter o "Número Serial" do Excel em Data legível (DD/MM/AAAA)
         function formatExcelDate(excelDate) {
             if (!excelDate) return "";
-            // Se já estiver formatado com barra, devolve como está
             if (typeof excelDate === "string" && excelDate.includes("/")) return String(excelDate).trim();
             
             let num = parseFloat(excelDate);
             if (!isNaN(num)) {
-                // 25569 é a diferença de dias entre a data base do Excel (1900) e do JavaScript (1970)
                 let utc_days = Math.floor(num - 25569);
                 let date_info = new Date(utc_days * 86400 * 1000);
-                
-                // Ajuste de fuso horário para evitar cair no dia anterior
                 let dataLocal = new Date(date_info.getTime() + (date_info.getTimezoneOffset() * 60000));
                 
                 let dia = String(dataLocal.getDate()).padStart(2, '0');
@@ -476,8 +474,9 @@
             document.getElementById('lblCPF').textContent = cpfFormatado;
             
             document.getElementById('lblCBO').textContent = String(dfProf[0]['COD_CBO'] || "-").trim();
+            // Puxando a Descrição do CBO para os quadros superiores
+            document.getElementById('lblDescricaoCBO').textContent = String(dfProf[0]['DESCRICAO'] || "-").trim();
 
-            // Captura e formata a Data de Desligamento
             let dtDesligamento = "";
             for (let i = 0; i < dfProf.length; i++) {
                 let valDT = dfProf[i]['DT_DESLIGAMENTO'] || dfProf[i]['DATA_DESLIGAMENTO'] || "";
