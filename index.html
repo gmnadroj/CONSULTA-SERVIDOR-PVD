@@ -83,11 +83,42 @@
             flex-grow: 1; 
             width: 100%;
         }
+
+        /* Quadro de Instruções (Guia Rápido) */
+        .instructions-card {
+            background-color: #e0f2fe;
+            border-left: 5px solid #0284c7;
+            padding: 20px 25px;
+            margin: 25px;
+            border-radius: 8px;
+            color: #0c4a6e;
+        }
+        .instructions-card h3 {
+            margin-top: 0;
+            color: #0284c7;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .instructions-card ol {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .instructions-card li {
+            margin-bottom: 8px;
+        }
+        .instructions-card li:last-child {
+            margin-bottom: 0;
+        }
         
         .controls-wrapper {
             display: flex;
             flex-wrap: wrap;
             border-bottom: 1px solid #cbd5e1; 
+            border-top: 1px solid #cbd5e1;
         }
         .control-section {
             flex: 1;
@@ -100,18 +131,28 @@
         
         h3 { font-size: 16px; font-weight: bold; margin-top: 0; color: #14171a; }
         
+        /* Estilo da Entrada de Texto (CPF) */
         input[type="text"] { 
             flex: 1;
             padding: 12px 18px; 
             border: 1px solid #94a3b8; 
             border-radius: 9999px; 
-            font-size: 14px; 
+            font-size: 20px; /* Tamanho da fonte aumentado */
+            font-weight: 800; /* Texto em negrito (bem forte) */
+            letter-spacing: 2px; /* Espaço entre os números para legibilidade */
+            color: #034b75; /* Cor azul escuro para dar destaque */
             outline: none; 
             transition: 0.2s; 
             background-color: #ffffff;
             box-sizing: border-box;
         }
         input[type="text"]:focus { border-color: #1da1f2; }
+        input[type="text"]::placeholder {
+            font-size: 14px; /* Placeholder com tamanho normal */
+            font-weight: 400; /* Sem negrito no placeholder */
+            letter-spacing: normal;
+            color: #94a3b8;
+        }
         
         input[type="file"] { font-size: 14px; color: #657786; width: 100%; margin-bottom: 5px; }
         input[type="file"]::file-selector-button {
@@ -218,6 +259,8 @@
             .app-title-group h1 { font-size: 22px; }
             .app-title-group h2 { font-size: 12px; }
             
+            .instructions-card { margin: 15px; padding: 15px; }
+            
             .controls-wrapper { flex-direction: column; }
             .control-section {
                 border-right: none;
@@ -251,6 +294,17 @@
     </div>
     
     <div class="container">
+        
+        <!-- Quadro de Instruções -->
+        <div class="instructions-card">
+            <h3>💡 Guia Rápido: Como utilizar o sistema</h3>
+            <ol>
+                <li><strong>Carregue a Base de Dados:</strong> No campo 1, clique no botão <em>"Escolher arquivo"</em>. Navegue pelas pastas do seu computador, selecione o arquivo Excel da base consolidada (ex: BASE_CONSOLIDADA.xlsx) e clique em Abrir. Aguarde a mensagem verde de sucesso.</li>
+                <li><strong>Faça a Consulta:</strong> No campo 2, digite o <strong>CPF</strong> do(a) servidor(a). Não se preocupe com pontos ou traços, digite apenas os números e clique em <em>"Consultar"</em>.</li>
+                <li><strong>Gere o Relatório:</strong> Verifique as informações detalhadas que aparecerão na tela. Para salvar ou imprimir o documento, clique no botão verde <em>"⬇ Baixar Espelho em PDF"</em> localizado no final da página.</li>
+            </ol>
+        </div>
+
         <div class="controls-wrapper">
             <div class="control-section">
                 <h3>1. Carregar Base Consolidada (.xlsx)</h3>
@@ -286,7 +340,6 @@
                         <span class="info-label">CBO</span>
                         <span class="info-value" id="lblCBO"></span>
                     </div>
-                    <!-- NOVO CAMPO: Descrição do CBO -->
                     <div class="info-item">
                         <span class="info-label">Descrição do CBO</span>
                         <span class="info-value" id="lblDescricaoCBO"></span>
@@ -305,7 +358,6 @@
                                 <th>DISTRITO</th>
                                 <th>CNES</th>
                                 <th>EAS</th>
-                                <!-- ALTERADO: Cargo para Descrição do CBO -->
                                 <th>DESCRIÇÃO DO CBO</th>
                                 <th>CBO</th>
                                 <th>INE</th>
@@ -474,7 +526,6 @@
             document.getElementById('lblCPF').textContent = cpfFormatado;
             
             document.getElementById('lblCBO').textContent = String(dfProf[0]['COD_CBO'] || "-").trim();
-            // Puxando a Descrição do CBO para os quadros superiores
             document.getElementById('lblDescricaoCBO').textContent = String(dfProf[0]['DESCRICAO'] || "-").trim();
 
             let dtDesligamento = "";
