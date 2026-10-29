@@ -84,41 +84,74 @@
             width: 100%;
         }
 
-        /* Quadro de Instruções (Guia Rápido) */
-        .instructions-card {
-            background-color: #e0f2fe;
-            border-left: 5px solid #0284c7;
-            padding: 20px 25px;
-            margin: 25px;
+        /* =========================================
+           TOOLTIPS (POP-UPS FLUTUANTES)
+           ========================================= */
+        .floating-tooltip {
+            background: #0284c7;
+            color: #fff;
+            padding: 12px 16px;
             border-radius: 8px;
-            color: #0c4a6e;
+            font-size: 13px;
+            position: absolute;
+            z-index: 50;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            line-height: 1.4;
+            left: 0;
+            top: 100%;
+            width: 250px;
+            text-align: left;
+            animation: float1 1.5s infinite;
         }
-        .instructions-card h3 {
-            margin-top: 0;
-            color: #0284c7;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .floating-tooltip.active {
+            opacity: 1;
+            visibility: visible;
         }
-        .instructions-card ol {
-            margin: 10px 0 0 0;
-            padding-left: 20px;
-            font-size: 14px;
-            line-height: 1.6;
+        /* Seta apontando para cima (para os Passos 1 e 2) */
+        .floating-tooltip::after {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            bottom: 100%;
+            left: 20px;
+            border-width: 0 8px 8px 8px;
+            border-color: transparent transparent #0284c7 transparent;
         }
-        .instructions-card li {
-            margin-bottom: 8px;
+
+        /* Tooltip 3 (Fica ACIMA do botão PDF e aponta para baixo) */
+        #tooltip3 {
+            top: auto;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -125px; /* Centraliza pela largura de 250px */
+            animation: float3 1.5s infinite;
         }
-        .instructions-card li:last-child {
-            margin-bottom: 0;
+        #tooltip3::after {
+            bottom: auto;
+            top: 100%;
+            left: 50%;
+            margin-left: -8px;
+            border-width: 8px 8px 0 8px;
+            border-color: #0284c7 transparent transparent transparent;
         }
+
+        @keyframes float1 {
+            0%, 100% { margin-top: 12px; }
+            50% { margin-top: 6px; }
+        }
+        @keyframes float3 {
+            0%, 100% { margin-bottom: 12px; }
+            50% { margin-bottom: 6px; }
+        }
+        /* ========================================= */
         
         .controls-wrapper {
             display: flex;
             flex-wrap: wrap;
             border-bottom: 1px solid #cbd5e1; 
-            border-top: 1px solid #cbd5e1;
         }
         .control-section {
             flex: 1;
@@ -137,10 +170,10 @@
             padding: 12px 18px; 
             border: 1px solid #94a3b8; 
             border-radius: 9999px; 
-            font-size: 20px; /* Tamanho da fonte aumentado */
-            font-weight: 800; /* Texto em negrito (bem forte) */
-            letter-spacing: 2px; /* Espaço entre os números para legibilidade */
-            color: #034b75; /* Cor azul escuro para dar destaque */
+            font-size: 20px; 
+            font-weight: 800; 
+            letter-spacing: 2px; 
+            color: #034b75; 
             outline: none; 
             transition: 0.2s; 
             background-color: #ffffff;
@@ -148,8 +181,8 @@
         }
         input[type="text"]:focus { border-color: #1da1f2; }
         input[type="text"]::placeholder {
-            font-size: 14px; /* Placeholder com tamanho normal */
-            font-weight: 400; /* Sem negrito no placeholder */
+            font-size: 14px; 
+            font-weight: 400; 
             letter-spacing: normal;
             color: #94a3b8;
         }
@@ -259,8 +292,6 @@
             .app-title-group h1 { font-size: 22px; }
             .app-title-group h2 { font-size: 12px; }
             
-            .instructions-card { margin: 15px; padding: 15px; }
-            
             .controls-wrapper { flex-direction: column; }
             .control-section {
                 border-right: none;
@@ -295,29 +326,28 @@
     
     <div class="container">
         
-        <!-- Quadro de Instruções -->
-        <div class="instructions-card">
-            <h3>💡 Guia Rápido: Como utilizar o sistema</h3>
-            <ol>
-                <li><strong>Carregue a Base de Dados:</strong> No campo 1, clique no botão <em>"Escolher arquivo"</em>. Navegue pelas pastas do seu computador, selecione o arquivo Excel da base consolidada (ex: BASE_CONSOLIDADA.xlsx) e clique em Abrir. Aguarde a mensagem verde de sucesso.</li>
-                <li><strong>Faça a Consulta:</strong> No campo 2, digite o <strong>CPF</strong> do(a) servidor(a). Não se preocupe com pontos ou traços, digite apenas os números e clique em <em>"Consultar"</em>.</li>
-                <li><strong>Gere o Relatório:</strong> Verifique as informações detalhadas que aparecerão na tela. Para salvar ou imprimir o documento, clique no botão verde <em>"⬇ Baixar Espelho em PDF"</em> localizado no final da página.</li>
-            </ol>
-        </div>
-
         <div class="controls-wrapper">
             <div class="control-section">
                 <h3>1. Carregar Base Consolidada (.xlsx)</h3>
-                <input type="file" id="fileInput" accept=".xlsx, .xls" />
+                <!-- Envolvido em div relative para o tooltip flutuar sobre ele -->
+                <div style="position: relative;">
+                    <input type="file" id="fileInput" accept=".xlsx, .xls" />
+                    <div id="tooltip1" class="floating-tooltip active">
+                        <strong>💡 Passo 1:</strong> Clique em "Escolher arquivo" e selecione a base consolidada em Excel.
+                    </div>
+                </div>
                 <div id="loading">A ler e processar o ficheiro... Por favor, aguarde.</div>
                 <div id="uploadStatus" class="status text-gray">Nenhum ficheiro carregado.</div>
             </div>
 
             <div class="control-section">
                 <h3>2. Consultar Profissional (CPF)</h3>
-                <div class="search-group">
+                <div class="search-group" style="position: relative;">
                     <input type="text" id="searchInput" placeholder="Digite o CPF do profissional" disabled />
                     <button id="btnSearch" class="btn" disabled>Consultar</button>
+                    <div id="tooltip2" class="floating-tooltip">
+                        <strong>💡 Passo 2:</strong> Digite apenas os números do CPF e clique em Consultar.
+                    </div>
                 </div>
             </div>
         </div>
@@ -372,7 +402,11 @@
                 </div>
             </div>
 
-            <div style="text-align: center;">
+            <!-- Botão de Download com o Tooltip 3 -->
+            <div style="text-align: center; position: relative;">
+                <div id="tooltip3" class="floating-tooltip">
+                    <strong>💡 Passo 3:</strong> Verifique os dados em tela e clique aqui para baixar o PDF.
+                </div>
                 <button id="btnPdf" class="btn btn-success" style="display: none;">
                     ⬇ Baixar Espelho em PDF
                 </button>
@@ -402,6 +436,17 @@
     <script>
         let globalData = [];
         let totalCompetencias = new Set();
+
+        // Controla qual Tooltip está visível
+        function showTooltip(stepNumber) {
+            document.getElementById('tooltip1').classList.remove('active');
+            document.getElementById('tooltip2').classList.remove('active');
+            document.getElementById('tooltip3').classList.remove('active');
+            
+            if (stepNumber) {
+                document.getElementById('tooltip' + stepNumber).classList.add('active');
+            }
+        }
 
         document.getElementById('fileInput').value = "";
         document.getElementById('fileInput').addEventListener('change', handleFile);
@@ -449,6 +494,7 @@
             document.getElementById('btnSearch').disabled = true;
             document.getElementById('printArea').style.display = 'none';
             document.getElementById('btnPdf').style.display = 'none';
+            showTooltip(null); // Esconde temporariamente enquanto carrega
 
             const reader = new FileReader();
             reader.onload = function(event) {
@@ -476,6 +522,9 @@
                         document.getElementById('searchInput').disabled = false;
                         document.getElementById('btnSearch').disabled = false;
                         document.getElementById('searchInput').focus();
+                        
+                        // Passo 1 concluído. Mostra a dica do Passo 2 (Consulta)
+                        showTooltip(2);
                     } else {
                         throw new Error("O ficheiro está vazio.");
                     }
@@ -483,6 +532,7 @@
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('uploadStatus').textContent = "❌ Erro ao ler o ficheiro.";
                     document.getElementById('uploadStatus').className = "status text-red";
+                    showTooltip(1); // Retorna a dica 1 caso haja erro
                 }
             };
             reader.readAsArrayBuffer(file);
@@ -510,6 +560,7 @@
 
             if (dfProf.length === 0) {
                 alert("CPF não encontrado na base de dados carregada.");
+                showTooltip(2); // Mantém no Passo 2 se não encontrar
                 return;
             }
 
@@ -561,9 +612,15 @@
             
             printArea.style.display = 'block';
             btnPdf.style.display = 'inline-block';
+            
+            // Passo 2 concluído. Mostra a dica do Passo 3 (Download)
+            showTooltip(3);
         }
 
         document.getElementById('btnPdf').addEventListener('click', function() {
+            // Ao clicar para gerar PDF, finaliza o processo e esconde os avisos.
+            showTooltip(null);
+            
             const element = document.getElementById('printArea');
             const nomeProf = document.getElementById('lblNome').textContent.replace(/\s+/g, '_');
             const tableDiv = document.getElementById('tableContainer');
