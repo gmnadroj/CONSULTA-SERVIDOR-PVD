@@ -79,7 +79,7 @@
             background: #f0f8ff; 
             border-radius: 16px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            overflow: hidden; 
+            overflow: visible; 
             flex-grow: 1; 
             width: 100%;
         }
@@ -87,7 +87,7 @@
         /* Tooltips Flutuantes */
         .floating-tooltip {
             background: #0284c7;
-            color: #fff;
+            color: #ffffff;
             padding: 12px 16px;
             border-radius: 8px;
             font-size: 13px;
@@ -100,49 +100,106 @@
             line-height: 1.4;
             left: 0;
             top: 100%;
-            width: 250px;
+            width: 260px;
             text-align: left;
             animation: float1 1.5s infinite;
         }
-        .floating-tooltip.active { opacity: 1; visibility: visible; }
+        .floating-tooltip.active { 
+            opacity: 1; 
+            visibility: visible; 
+        }
         .floating-tooltip::after {
-            content: ''; position: absolute; border-style: solid;
-            bottom: 100%; left: 20px; border-width: 0 8px 8px 8px; border-color: transparent transparent #0284c7 transparent;
+            content: ''; 
+            position: absolute; 
+            border-style: solid;
+            bottom: 100%; 
+            left: 20px; 
+            border-width: 0 8px 8px 8px; 
+            border-color: transparent transparent #0284c7 transparent;
         }
         #tooltip3 {
-            top: auto; bottom: 100%; left: 50%; margin-left: -125px; animation: float3 1.5s infinite;
+            top: auto; 
+            bottom: 100%; 
+            left: 50%; 
+            margin-left: -130px; 
+            animation: float3 1.5s infinite;
         }
         #tooltip3::after {
-            bottom: auto; top: 100%; left: 50%; margin-left: -8px; border-width: 8px 8px 0 8px; border-color: #0284c7 transparent transparent transparent;
+            bottom: auto; 
+            top: 100%; 
+            left: 50%; 
+            margin-left: -8px; 
+            border-width: 8px 8px 0 8px; 
+            border-color: #0284c7 transparent transparent transparent;
         }
         @keyframes float1 { 0%, 100% { margin-top: 12px; } 50% { margin-top: 6px; } }
         @keyframes float3 { 0%, 100% { margin-bottom: 12px; } 50% { margin-bottom: 6px; } }
         
-        .controls-wrapper { display: flex; flex-wrap: wrap; border-bottom: 1px solid #cbd5e1; }
-        .control-section { flex: 1; min-width: 320px; padding: 25px; border-right: 1px solid #cbd5e1; box-sizing: border-box; }
+        .controls-wrapper { 
+            display: flex; 
+            flex-wrap: wrap; 
+            border-bottom: 1px solid #cbd5e1; 
+        }
+        .control-section { 
+            flex: 1; 
+            min-width: 320px; 
+            padding: 25px; 
+            border-right: 1px solid #cbd5e1; 
+            box-sizing: border-box; 
+        }
         .control-section:last-child { border-right: none; }
         
         h3 { font-size: 16px; font-weight: bold; margin-top: 0; color: #14171a; }
         
         /* Estilo da Entrada de Texto */
         input[type="text"] { 
-            flex: 1; padding: 12px 18px; border: 1px solid #94a3b8; border-radius: 9999px; 
-            font-size: 16px; font-weight: 700; color: #034b75; outline: none; transition: 0.2s; 
-            background-color: #ffffff; box-sizing: border-box;
+            flex: 1; 
+            padding: 12px 18px; 
+            border: 1px solid #94a3b8; 
+            border-radius: 9999px; 
+            font-size: 18px; 
+            font-weight: 800; 
+            letter-spacing: 1px;
+            color: #034b75; 
+            outline: none; 
+            transition: 0.2s; 
+            background-color: #ffffff; 
+            box-sizing: border-box;
         }
         input[type="text"]:focus { border-color: #1da1f2; }
-        input[type="text"]::placeholder { font-size: 14px; font-weight: 400; color: #94a3b8; }
+        input[type="text"]::placeholder { 
+            font-size: 14px; 
+            font-weight: 400; 
+            letter-spacing: normal;
+            color: #94a3b8; 
+        }
         
         input[type="file"] { font-size: 14px; color: #657786; width: 100%; margin-bottom: 5px; }
         input[type="file"]::file-selector-button {
-            padding: 8px 16px; border-radius: 9999px; border: 1px solid #1da1f2;
-            background-color: #ffffff; color: #1da1f2; font-weight: bold; cursor: pointer;
-            transition: 0.2s; margin-right: 10px;
+            padding: 8px 16px; 
+            border-radius: 9999px; 
+            border: 1px solid #1da1f2;
+            background-color: #ffffff; 
+            color: #1da1f2; 
+            font-weight: bold; 
+            cursor: pointer;
+            transition: 0.2s; 
+            margin-right: 10px;
         }
         input[type="file"]::file-selector-button:hover { background-color: #e8f5fd; }
         
         /* Botões */
-        .btn { padding: 10px 24px; background-color: #1da1f2; color: white; border: none; border-radius: 9999px; cursor: pointer; font-size: 15px; font-weight: bold; transition: 0.2s; }
+        .btn { 
+            padding: 10px 24px; 
+            background-color: #1da1f2; 
+            color: white; 
+            border: none; 
+            border-radius: 9999px; 
+            cursor: pointer; 
+            font-size: 15px; 
+            font-weight: bold; 
+            transition: 0.2s; 
+        }
         .btn:hover:not(:disabled) { background-color: #1a91da; }
         .btn:disabled { background-color: #a5d0f5; cursor: not-allowed; opacity: 0.7; }
         .btn-success { background-color: #10b981; margin-top: 15px; font-size: 16px; }
@@ -155,11 +212,27 @@
         .text-gray { color: #657786; }
         
         /* Múltiplos Resultados */
-        #selectionArea { display: none; padding: 25px; border-bottom: 1px solid #cbd5e1; background-color: #f8fafc; }
-        .server-option { padding: 10px 15px; border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 8px; background: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
-        .server-option:hover { border-color: #1da1f2; background-color: #f0f8ff; }
+        #selectionArea { 
+            display: none; 
+            padding: 25px; 
+            border-bottom: 1px solid #cbd5e1; 
+            background-color: #f8fafc; 
+        }
+        .server-option { 
+            padding: 12px 16px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 8px; 
+            margin-bottom: 8px; 
+            background: white; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            transition: 0.2s; 
+        }
+        .server-option:hover { border-color: #1da1f2; background-color: #e0f2fe; }
         .server-name { font-weight: bold; color: #034b75; }
-        .server-doc { font-size: 12px; color: #64748b; }
+        .server-doc { font-size: 12px; color: #64748b; font-weight: 600; }
 
         /* =========================================
            ESTILOS DO RELATÓRIO PDF (Azul Petróleo - Full Bleed)
@@ -167,37 +240,61 @@
         .results-section { padding: 0; min-height: 200px; }
         #loading { display: none; margin-top: 10px; color: #1da1f2; font-size: 14px; font-weight: 500; }
         
+        .print-container-web { padding: 25px; }
+        
         #printArea {
             background: linear-gradient(to right, #072e50, #034b75);
             color: #ffffff;
-            padding: 40px; 
+            padding: 35px; 
             margin: 0;
             width: 100%;
-            min-height: 100%; /* Ajuda no Full Bleed */
+            border-radius: 8px;
             box-sizing: border-box;
         }
 
-        /* Envolve a área do print no ecrã web para manter a estética do site sem afetar o PDF */
-        .print-container-web {
-            padding: 25px;
-        }
-        .print-container-web #printArea {
-            border-radius: 8px; /* Cantos arredondados só na web */
-        }
-
-        /* Cabeçalho Oficial do PDF (Novo Título) */
+        /* Cabeçalho Oficial do PDF */
         .pdf-header {
-            display: flex; align-items: center; justify-content: center; gap: 25px;
-            margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 25px;
+            margin-bottom: 30px; 
+            padding-bottom: 20px; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         }
-        .pdf-header img { max-height: 70px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
-        .pdf-header-text { text-align: left; line-height: 1.4; }
-        .pdf-header-text h3 { margin: 0; color: #ffffff; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .pdf-header-text p { margin: 5px 0 0 0; color: #a5d0f5; font-size: 13px; }
+        .pdf-header img { 
+            max-height: 70px; 
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); 
+        }
+        .pdf-header-text { 
+            text-align: left; 
+            line-height: 1.4; 
+            border-left: 2px solid rgba(255, 255, 255, 0.2);
+            padding-left: 20px;
+        }
+        .pdf-header-text h3 { 
+            margin: 0; 
+            color: #ffffff; 
+            font-size: 22px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
+        .pdf-header-text p { 
+            margin: 5px 0 0 0; 
+            color: #a5d0f5; 
+            font-size: 14px; 
+            font-weight: 600;
+        }
 
         #printArea .info-card {
-            display: flex; flex-wrap: wrap; gap: 30px; background: rgba(255, 255, 255, 0.05); 
-            padding: 18px 25px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 25px;
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 30px; 
+            background: rgba(255, 255, 255, 0.06); 
+            padding: 18px 25px; 
+            border-radius: 8px; 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            margin-bottom: 25px;
         }
         .info-item { display: flex; flex-direction: column; }
         .info-label { font-size: 11px; color: #a5d0f5; text-transform: uppercase; font-weight: bold; margin-bottom: 4px; }
@@ -205,21 +302,41 @@
         .text-danger { color: #fca5a5 !important; }
 
         #printArea table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        #printArea th { text-align: left; padding: 12px 10px; border-bottom: 2px solid #a5d0f5; color: #a5d0f5; font-size: 11px; text-transform: uppercase; }
-        #printArea td { padding: 12px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; white-space: normal; word-wrap: break-word; }
+        #printArea th { 
+            text-align: left; 
+            padding: 12px 10px; 
+            border-bottom: 2px solid #a5d0f5; 
+            color: #a5d0f5; 
+            font-size: 11px; 
+            text-transform: uppercase; 
+        }
+        #printArea td { 
+            padding: 12px 10px; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12); 
+            color: #ffffff; 
+            white-space: normal; 
+            word-wrap: break-word; 
+        }
         #printArea tr:hover { background-color: rgba(255, 255, 255, 0.05); } 
 
-        /* Rodapé Ajustado */
+        /* Rodapé da Página Inicial */
         .footer {
-            margin-top: 40px; display: flex; justify-content: space-between; align-items: center;
-            color: #ffffff; font-size: 12px; width: 100%; max-width: 1100px; margin-left: auto; margin-right: auto;
+            margin-top: 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            color: #ffffff; 
+            font-size: 12px; 
+            width: 100%; 
+            max-width: 1100px; 
+            margin-left: auto; 
+            margin-right: auto;
         }
-        .footer-logo { max-height: 50px; width: auto; }
-        /* Logo central da DID ligeiramente maior, sem texto debaixo */
+        .footer-logo { max-height: 55px; width: auto; }
         .footer-center { text-align: center; display: flex; flex-direction: column; align-items: center; }
-        .footer-center img { max-height: 60px; } 
+        .footer-center img { max-height: 75px; width: auto; } 
         .footer-right { text-align: right; line-height: 1.6; }
-        .footer-right img { max-height: 40px; margin-bottom: 10px; }
+        .footer-right img { max-height: 45px; margin-bottom: 10px; }
 
         @media (max-width: 768px) {
             body { padding: 10px 10px 40px 10px; }
@@ -238,6 +355,7 @@
             .footer { flex-direction: column; gap: 30px; }
             .footer-left, .footer-center, .footer-right { text-align: center; }
             .pdf-header { flex-direction: column; text-align: center; }
+            .pdf-header-text { border-left: none; padding-left: 0; text-align: center; }
         }
     </style>
 </head>
@@ -259,4 +377,411 @@
                 <div style="position: relative;">
                     <input type="file" id="fileInput" accept=".xlsx, .xls" />
                     <div id="tooltip1" class="floating-tooltip active">
-                        <strong>💡
+                        <strong>&#128161; Passo 1:</strong> Clique em "Escolher arquivo" e selecione a base consolidada em Excel.
+                    </div>
+                </div>
+                <div id="loading">A ler e processar o ficheiro... Por favor, aguarde.</div>
+                <div id="uploadStatus" class="status text-gray">Nenhum ficheiro carregado.</div>
+            </div>
+
+            <div class="control-section">
+                <h3>2. Consultar Profissional</h3>
+                <div class="search-group" style="position: relative;">
+                    <input type="text" id="searchInput" placeholder="Nome, Matrícula ou CPF" disabled />
+                    <button id="btnSearch" class="btn" disabled>Consultar</button>
+                    <div id="tooltip2" class="floating-tooltip">
+                        <strong>&#128161; Passo 2:</strong> Digite o Nome, a Matrícula ou o CPF e clique em Consultar.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seleção de Múltiplos Servidores -->
+        <div id="selectionArea">
+            <h3>Foram encontrados vários servidores. Por favor, clique no servidor desejado:</h3>
+            <div id="serverList"></div>
+        </div>
+
+        <div class="results-section">
+            <div class="print-container-web">
+                <div id="printArea" style="display: none;">
+                    
+                    <div class="pdf-header">
+                        <img src="logo_did.png" alt="DID Logo">
+                        <div class="pdf-header-text">
+                            <h3>CONSULTA SERVIDOR PVD</h3>
+                            <p>Diretoria de Inteligência de Dados &copy; 2026</p>
+                        </div>
+                    </div>
+
+                    <h2 id="tituloSituacao" style="margin-top: 0; margin-bottom: 25px; font-size: 22px; color: #ffffff; text-align: center;"></h2>
+                    
+                    <div class="info-card">
+                        <div class="info-item">
+                            <span class="info-label">Nome Completo</span>
+                            <span class="info-value" id="lblNome"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">CPF</span>
+                            <span class="info-value" id="lblCPF"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">CBO</span>
+                            <span class="info-value" id="lblCBO"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Descrição do CBO</span>
+                            <span class="info-value" id="lblDescricaoCBO"></span>
+                        </div>
+                        <div class="info-item" id="boxDesligamento" style="display: none;">
+                            <span class="info-label">Data de Desligamento</span>
+                            <span class="info-value text-danger" id="lblDesligamento"></span>
+                        </div>
+                    </div>
+                    
+                    <div id="tableContainer" style="overflow-x: auto; width: 100%;">
+                        <table id="resultTable">
+                            <thead>
+                                <tr>
+                                    <th>COMPETÊNCIA</th>
+                                    <th>DISTRITO</th>
+                                    <th>CNES</th>
+                                    <th>EAS</th>
+                                    <th>DESCRIÇÃO DO CBO</th>
+                                    <th>CBO</th>
+                                    <th>INE</th>
+                                    <th>EQUIPE</th>
+                                    <th>TIPO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Linhas geradas via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="btnDownloadArea" style="text-align: center; position: relative; display: none; padding-bottom: 25px;">
+                <div id="tooltip3" class="floating-tooltip">
+                    <strong>&#128161; Passo 3:</strong> Verifique os dados e clique aqui para baixar o PDF.
+                </div>
+                <button id="btnPdf" class="btn btn-success">
+                    &#11015; Baixar Espelho em PDF
+                </button>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="footer">
+        <div class="footer-left">
+            <img src="logo_pmm_white.png" alt="Prefeitura de Manaus" class="footer-logo">
+        </div>
+        <div class="footer-center">
+            <img src="logo_did.png" alt="DID">
+        </div>
+        <div class="footer-right">
+            <img src="logo-semsa-cabecalho-white.png" alt="SEMSA"><br>
+            Av. Maceió, 160 - Adrianópolis<br>
+            Manaus - AM, 69029-520<br>
+            Telefone: (92) 3214-5072
+        </div>
+    </div>
+    
+    <script>
+        let globalData = [];
+        let totalCompetencias = new Set();
+        let groupedData = {};
+
+        function showTooltip(stepNumber) {
+            document.getElementById('tooltip1').classList.remove('active');
+            document.getElementById('tooltip2').classList.remove('active');
+            document.getElementById('tooltip3').classList.remove('active');
+            
+            if (stepNumber) {
+                document.getElementById('tooltip' + stepNumber).classList.add('active');
+            }
+        }
+
+        document.getElementById('fileInput').value = "";
+        document.getElementById('fileInput').addEventListener('change', handleFile);
+        document.getElementById('btnSearch').addEventListener('click', processSearch);
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') processSearch();
+        });
+
+        function getGenero(nome) {
+            const primeiroNome = nome.trim().split(' ')[0].toUpperCase();
+            const finaisFemininos = ['A', 'Z'];
+            const nomesFemininosComuns = ['ELIANE', 'ALINE', 'SIMONE', 'MICHELE', 'RAQUEL', 'ESTER', 'RUTH', 'CARMEM', 'CARMEN', 'MIRIAN', 'SUELEN', 'KAREN', 'IVONE', 'CLEIDE', 'LILIAN', 'IRIS', 'EVELIN', 'EVELYN', 'FRANCINE', 'ODETE'];
+            
+            if (finaisFemininos.some(letra => primeiroNome.endsWith(letra)) || nomesFemininosComuns.includes(primeiroNome)) {
+                return 'F'; 
+            }
+            return 'M'; 
+        }
+
+        function formatExcelDate(excelDate) {
+            if (!excelDate) return "";
+            if (typeof excelDate === "string" && excelDate.includes("/")) return String(excelDate).trim();
+            
+            let num = parseFloat(excelDate);
+            if (!isNaN(num)) {
+                let utc_days = Math.floor(num - 25569);
+                let date_info = new Date(utc_days * 86400 * 1000);
+                let dataLocal = new Date(date_info.getTime() + (date_info.getTimezoneOffset() * 60000));
+                
+                let dia = String(dataLocal.getDate()).padStart(2, '0');
+                let mes = String(dataLocal.getMonth() + 1).padStart(2, '0');
+                let ano = dataLocal.getFullYear();
+                return `${dia}/${mes}/${ano}`;
+            }
+            return excelDate;
+        }
+
+        function handleFile(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('uploadStatus').textContent = "";
+            document.getElementById('searchInput').disabled = true;
+            document.getElementById('btnSearch').disabled = true;
+            document.getElementById('printArea').style.display = 'none';
+            document.getElementById('btnDownloadArea').style.display = 'none';
+            document.getElementById('selectionArea').style.display = 'none';
+            showTooltip(null); 
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const data = new Uint8Array(event.target.result);
+                    const workbook = XLSX.read(data, {type: 'array'});
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    
+                    globalData = XLSX.utils.sheet_to_json(worksheet, {defval: ""});
+                    
+                    totalCompetencias = new Set();
+                    globalData.forEach(row => {
+                        let val = String(row.CMPT_CNES).trim();
+                        if (val !== "" && val.toUpperCase() !== "CMPT_CNES" && !isNaN(val)) {
+                            totalCompetencias.add(val);
+                        }
+                    });
+
+                    document.getElementById('loading').style.display = 'none';
+                    
+                    if(globalData.length > 0) {
+                        document.getElementById('uploadStatus').innerHTML = `&#9989; Base carregada com sucesso! Identificadas ${totalCompetencias.size} competências e ${globalData.length.toLocaleString('pt-BR')} registos.`;
+                        document.getElementById('uploadStatus').className = "status text-green";
+                        document.getElementById('searchInput').disabled = false;
+                        document.getElementById('btnSearch').disabled = false;
+                        document.getElementById('searchInput').focus();
+                        showTooltip(2);
+                    } else {
+                        throw new Error("O ficheiro está vazio.");
+                    }
+                } catch (error) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('uploadStatus').innerHTML = "&#10060; Erro ao ler o ficheiro.";
+                    document.getElementById('uploadStatus').className = "status text-red";
+                    showTooltip(1); 
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function processSearch() {
+            const rawInput = document.getElementById('searchInput').value.trim().toUpperCase();
+            document.getElementById('printArea').style.display = 'none';
+            document.getElementById('btnDownloadArea').style.display = 'none';
+            document.getElementById('selectionArea').style.display = 'none';
+            document.getElementById('serverList').innerHTML = "";
+            document.querySelector('#resultTable tbody').innerHTML = "";
+            
+            if (!rawInput) return;
+
+            const inputOnlyNumbers = rawInput.replace(/\D/g, '');
+            const hasLetters = /[A-ZÀ-Ú]/.test(rawInput);
+            const inputNum = inputOnlyNumbers ? parseInt(inputOnlyNumbers, 10) : null;
+
+            groupedData = {};
+            
+            globalData.forEach(row => {
+                const cpfExcelRaw = String(row.CPF_PROF || row.CPF || "").replace(/\D/g, '');
+                const cpfExcelNum = cpfExcelRaw ? parseInt(cpfExcelRaw, 10) : null;
+                const nomeExcel = String(row.NOME_PROF || "").trim().toUpperCase();
+                const matExcelRaw = String(row.MATRICULA || row.MAT_PROF || "").trim().toUpperCase();
+                const matExcelNumbers = matExcelRaw.replace(/\D/g, '');
+
+                let match = false;
+                
+                if (hasLetters) {
+                    // Busca por Nome ou Matrícula alfanumérica
+                    if (nomeExcel.includes(rawInput) || (matExcelRaw && matExcelRaw === rawInput)) {
+                        match = true;
+                    }
+                } else if (inputOnlyNumbers.length > 0) {
+                    // Busca numérica: compara CPF (ignorando zeros à esquerda perdidos no Excel) ou Matrícula
+                    if (cpfExcelNum !== null && cpfExcelNum === inputNum) {
+                        match = true;
+                    } else if (matExcelNumbers && (matExcelNumbers === inputOnlyNumbers || parseInt(matExcelNumbers, 10) === inputNum)) {
+                        match = true;
+                    }
+                }
+
+                if (match) {
+                    const keyId = cpfExcelNum !== null ? String(cpfExcelNum) : nomeExcel;
+                    if (!groupedData[keyId]) {
+                        groupedData[keyId] = [];
+                    }
+                    groupedData[keyId].push(row);
+                }
+            });
+
+            const uniqueServers = Object.keys(groupedData);
+
+            if (uniqueServers.length === 0) {
+                alert("Nenhum servidor encontrado com os dados informados.");
+                showTooltip(2);
+                return;
+            }
+
+            if (uniqueServers.length === 1) {
+                renderReport(groupedData[uniqueServers[0]]);
+            } else {
+                showSelectionList(uniqueServers);
+            }
+        }
+
+        function showSelectionList(uniqueKeys) {
+            const serverList = document.getElementById('serverList');
+            const selectionArea = document.getElementById('selectionArea');
+            
+            uniqueKeys.forEach(key => {
+                const dataSet = groupedData[key];
+                const nome = dataSet[0]['NOME_PROF'] || "Não identificado";
+                const rawCpf = String(dataSet[0]['CPF_PROF'] || dataSet[0]['CPF'] || "").replace(/\D/g, '');
+                const cpfFormatado = rawCpf ? rawCpf.padStart(11, '0').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4") : "Sem CPF";
+                
+                const option = document.createElement('div');
+                option.className = 'server-option';
+                option.innerHTML = `
+                    <span class="server-name">${nome}</span>
+                    <span class="server-doc">CPF: ${cpfFormatado}</span>
+                `;
+                
+                option.onclick = function() {
+                    selectionArea.style.display = 'none';
+                    renderReport(dataSet);
+                };
+                
+                serverList.appendChild(option);
+            });
+            
+            selectionArea.style.display = 'block';
+            showTooltip(null);
+        }
+
+        function renderReport(dfProf) {
+            const tbody = document.querySelector('#resultTable tbody');
+            tbody.innerHTML = "";
+
+            const nomeDoServidor = dfProf[0]['NOME_PROF'] || "Servidor(a) não identificado";
+            const rawCpf = String(dfProf[0]['CPF_PROF'] || dfProf[0]['CPF'] || "").replace(/\D/g, '');
+            const anoBase = Array.from(totalCompetencias)[0].substring(0, 4);
+            const genero = getGenero(nomeDoServidor);
+            const textoServidor = genero === 'F' ? "da servidora" : "do servidor";
+            
+            document.getElementById('tituloSituacao').textContent = `Situação ${textoServidor} no CNES nas competências de ${anoBase}`;
+            document.getElementById('lblNome').textContent = nomeDoServidor;
+            
+            if (rawCpf && rawCpf.length > 0) {
+                const cpfExibicao = rawCpf.padStart(11, '0');
+                document.getElementById('lblCPF').textContent = cpfExibicao.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            } else {
+                document.getElementById('lblCPF').textContent = "-";
+            }
+            
+            document.getElementById('lblCBO').textContent = String(dfProf[0]['COD_CBO'] || "-").trim();
+            document.getElementById('lblDescricaoCBO').textContent = String(dfProf[0]['DESCRICAO'] || "-").trim();
+
+            let dtDesligamento = "";
+            for (let i = 0; i < dfProf.length; i++) {
+                let valDT = dfProf[i]['DT_DESLIGAMENTO'] || dfProf[i]['DATA_DESLIGAMENTO'] || "";
+                if (String(valDT).trim() !== "") {
+                    dtDesligamento = formatExcelDate(valDT);
+                    break;
+                }
+            }
+
+            const boxDesligamento = document.getElementById('boxDesligamento');
+            if (dtDesligamento !== "") {
+                document.getElementById('lblDesligamento').textContent = dtDesligamento;
+                boxDesligamento.style.display = 'flex';
+            } else {
+                boxDesligamento.style.display = 'none';
+            }
+
+            dfProf.sort((a, b) => String(a.CMPT_CNES).localeCompare(String(b.CMPT_CNES)));
+            
+            const colunas = ['CMPT_CNES', 'DISTRITO', 'CNES', 'EAS', 'DESCRICAO', 'COD_CBO', 'INE', 'EQUIPE', 'TIPO'];
+            
+            dfProf.forEach(row => {
+                const tr = document.createElement('tr');
+                colunas.forEach(col => {
+                    const td = document.createElement('td');
+                    td.textContent = (row[col] !== undefined && String(row[col]).trim() !== "") ? row[col] : "-";
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+            
+            document.getElementById('printArea').style.display = 'block';
+            document.getElementById('btnDownloadArea').style.display = 'block';
+            showTooltip(3);
+        }
+
+        document.getElementById('btnPdf').addEventListener('click', function() {
+            showTooltip(null);
+            
+            const element = document.getElementById('printArea');
+            const nomeProf = document.getElementById('lblNome').textContent.replace(/\s+/g, '_');
+            const tableDiv = document.getElementById('tableContainer');
+            
+            if (tableDiv) tableDiv.style.overflowX = 'visible';
+            
+            const originalRadius = element.style.borderRadius;
+            const originalMinHeight = element.style.minHeight;
+            
+            // Garante que a altura do bloco azul cubra 100% da proporção A4 Paisagem (297:210)
+            const targetHeight = Math.ceil(element.offsetWidth * (210 / 297));
+            element.style.borderRadius = '0';
+            element.style.minHeight = targetHeight + 'px';
+            
+            const opt = {
+                margin:       0,
+                filename:     `Consulta_CNES_${nomeProf}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    scrollY: 0, 
+                    backgroundColor: '#072e50',
+                    windowWidth: document.documentElement.offsetWidth,
+                    useCORS: true 
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' } 
+            };
+            
+            html2pdf().set(opt).from(element).save().then(() => {
+                if (tableDiv) tableDiv.style.overflowX = 'auto'; 
+                element.style.borderRadius = originalRadius;
+                element.style.minHeight = originalMinHeight;
+            });
+        });
+    </script>
+</body>
+</html>
