@@ -288,7 +288,6 @@
             padding: 12px 10px; 
             border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
             color: #ffffff; 
-            /* CORREÇÃO DO CORTE NO PDF: text wrapping ativado */
             white-space: normal; 
             word-wrap: break-word;
         }
@@ -374,7 +373,6 @@
         <div class="results-section">
             <div id="printArea" style="display: none;">
                 
-                <!-- NOVO: Cabeçalho Oficial do Documento PDF -->
                 <div class="pdf-header">
                     <img src="logo_did.png" alt="DID Logo">
                     <div class="pdf-header-text">
@@ -650,14 +648,13 @@
             
             if (tableDiv) tableDiv.style.overflowX = 'visible';
             
-            // Adiciona preenchimento extra para que o azul cubra a folha PDF inteira
             const originalPadding = element.style.padding;
             const originalRadius = element.style.borderRadius;
             element.style.padding = '15mm';
             element.style.borderRadius = '0';
             
             const opt = {
-                margin:       0, // Margem zero garante o fundo azul de ponta a ponta
+                margin:       0, 
                 filename:     `Consulta_CNES_${nomeProf}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { 
@@ -671,7 +668,6 @@
             
             html2pdf().set(opt).from(element).save().then(() => {
                 if (tableDiv) tableDiv.style.overflowX = 'auto'; 
-                // Restaura o formato original após gerar o PDF
                 element.style.padding = originalPadding;
                 element.style.borderRadius = originalRadius;
             });
@@ -679,5 +675,3 @@
     </script>
 </body>
 </html>
-
-
