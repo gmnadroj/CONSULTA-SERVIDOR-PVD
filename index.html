@@ -23,7 +23,7 @@
             flex-direction: column;
         }
         
-        /* Cabeçalho Profissional */
+        /* Cabeçalho da Página Web */
         .app-header {
             display: flex;
             align-items: center;
@@ -235,7 +235,7 @@
         .server-doc { font-size: 12px; color: #64748b; font-weight: 600; }
 
         /* =========================================
-           ESTILOS DO RELATÓRIO PDF (Azul Petróleo - Full Bleed)
+           ESTILOS DO RELATÓRIO PDF (Compacto e Proporcional)
            ========================================= */
         .results-section { padding: 0; min-height: 200px; }
         #loading { display: none; margin-top: 10px; color: #1da1f2; font-size: 14px; font-weight: 500; }
@@ -245,78 +245,88 @@
         #printArea {
             background: linear-gradient(to right, #072e50, #034b75);
             color: #ffffff;
-            padding: 35px; 
+            padding: 20px 28px; 
             margin: 0;
             width: 100%;
             border-radius: 8px;
             box-sizing: border-box;
         }
 
-        /* Cabeçalho Oficial do PDF */
+        /* Cabeçalho Oficial do PDF Compactado */
         .pdf-header {
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            gap: 25px;
-            margin-bottom: 30px; 
-            padding-bottom: 20px; 
+            gap: 16px;
+            margin-bottom: 14px; 
+            padding-bottom: 10px; 
             border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         }
         .pdf-header img { 
-            max-height: 70px; 
+            max-height: 44px; 
+            width: auto;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); 
         }
         .pdf-header-text { 
             text-align: left; 
-            line-height: 1.4; 
+            line-height: 1.25; 
             border-left: 2px solid rgba(255, 255, 255, 0.2);
-            padding-left: 20px;
+            padding-left: 16px;
         }
         .pdf-header-text h3 { 
             margin: 0; 
             color: #ffffff; 
-            font-size: 22px; 
+            font-size: 16px; 
             text-transform: uppercase; 
-            letter-spacing: 1px; 
+            letter-spacing: 0.8px; 
         }
         .pdf-header-text p { 
-            margin: 5px 0 0 0; 
+            margin: 3px 0 0 0; 
             color: #a5d0f5; 
-            font-size: 14px; 
+            font-size: 12px; 
             font-weight: 600;
+        }
+
+        #tituloSituacao {
+            margin-top: 0; 
+            margin-bottom: 12px; 
+            font-size: 17px; 
+            color: #ffffff; 
+            text-align: center;
         }
 
         #printArea .info-card {
             display: flex; 
             flex-wrap: wrap; 
-            gap: 30px; 
+            gap: 24px; 
             background: rgba(255, 255, 255, 0.06); 
-            padding: 18px 25px; 
+            padding: 10px 18px; 
             border-radius: 8px; 
             border: 1px solid rgba(255, 255, 255, 0.15); 
-            margin-bottom: 25px;
+            margin-bottom: 14px;
         }
         .info-item { display: flex; flex-direction: column; }
-        .info-label { font-size: 11px; color: #a5d0f5; text-transform: uppercase; font-weight: bold; margin-bottom: 4px; }
-        .info-value { font-size: 15px; color: #ffffff; font-weight: 600; }
+        .info-label { font-size: 10px; color: #a5d0f5; text-transform: uppercase; font-weight: bold; margin-bottom: 2px; }
+        .info-value { font-size: 13px; color: #ffffff; font-weight: 600; }
         .text-danger { color: #fca5a5 !important; }
 
-        #printArea table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        #printArea table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
         #printArea th { 
             text-align: left; 
-            padding: 12px 10px; 
+            padding: 7px 8px; 
             border-bottom: 2px solid #a5d0f5; 
             color: #a5d0f5; 
-            font-size: 11px; 
+            font-size: 10px; 
             text-transform: uppercase; 
         }
         #printArea td { 
-            padding: 12px 10px; 
+            padding: 6px 8px; 
             border-bottom: 1px solid rgba(255, 255, 255, 0.12); 
             color: #ffffff; 
             white-space: normal; 
             word-wrap: break-word; 
         }
+        #printArea tr { page-break-inside: avoid; }
         #printArea tr:hover { background-color: rgba(255, 255, 255, 0.05); } 
 
         /* Rodapé da Página Inicial */
@@ -351,7 +361,7 @@
             .search-group { flex-direction: column; align-items: stretch; }
             .search-group input[type="text"] { width: 100%; }
             .search-group .btn { width: 100%; }
-            .info-card { flex-direction: column; gap: 15px; }
+            .info-card { flex-direction: column; gap: 12px; }
             .footer { flex-direction: column; gap: 30px; }
             .footer-left, .footer-center, .footer-right { text-align: center; }
             .pdf-header { flex-direction: column; text-align: center; }
@@ -410,11 +420,11 @@
                         <img src="logo_did.png" alt="DID Logo">
                         <div class="pdf-header-text">
                             <h3>CONSULTA SERVIDOR PVD</h3>
-                            <p>Diretoria de Inteligência de Dados &copy; 2026</p>
+                            <p>Secretaria Municipal de Saúde de Manaus&copy; 2026</p>
                         </div>
                     </div>
 
-                    <h2 id="tituloSituacao" style="margin-top: 0; margin-bottom: 25px; font-size: 22px; color: #ffffff; text-align: center;"></h2>
+                    <h2 id="tituloSituacao"></h2>
                     
                     <div class="info-card">
                         <div class="info-item">
@@ -620,12 +630,10 @@
                 let match = false;
                 
                 if (hasLetters) {
-                    // Busca por Nome ou Matrícula alfanumérica
                     if (nomeExcel.includes(rawInput) || (matExcelRaw && matExcelRaw === rawInput)) {
                         match = true;
                     }
                 } else if (inputOnlyNumbers.length > 0) {
-                    // Busca numérica: compara CPF (ignorando zeros à esquerda perdidos no Excel) ou Matrícula
                     if (cpfExcelNum !== null && cpfExcelNum === inputNum) {
                         match = true;
                     } else if (matExcelNumbers && (matExcelNumbers === inputOnlyNumbers || parseInt(matExcelNumbers, 10) === inputNum)) {
@@ -757,10 +765,17 @@
             const originalRadius = element.style.borderRadius;
             const originalMinHeight = element.style.minHeight;
             
-            // Garante que a altura do bloco azul cubra 100% da proporção A4 Paisagem (297:210)
-            const targetHeight = Math.ceil(element.offsetWidth * (210 / 297));
+            // Mede a altura real do conteúdo antes de aplicar o preenchimento da folha A4
+            element.style.minHeight = '0px';
+            const naturalHeight = element.scrollHeight;
+            const onePageHeightPx = element.offsetWidth * (210 / 297);
+            
+            // Calcula quantas páginas são realmente necessárias para os dados
+            const expectedPages = Math.max(1, Math.ceil(naturalHeight / onePageHeightPx));
+            
+            // Preenche 100% da altura da(s) página(s) necessária(s) com o fundo azul
             element.style.borderRadius = '0';
-            element.style.minHeight = targetHeight + 'px';
+            element.style.minHeight = Math.ceil(expectedPages * onePageHeightPx) + 'px';
             
             const opt = {
                 margin:       0,
@@ -776,7 +791,12 @@
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' } 
             };
             
-            html2pdf().set(opt).from(element).save().then(() => {
+            // Gera o PDF e remove qualquer página sobressalente causada por arredondamento de pixels
+            html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
+                while (pdf.internal.getNumberOfPages() > expectedPages) {
+                    pdf.deletePage(pdf.internal.getNumberOfPages());
+                }
+            }).save().then(() => {
                 if (tableDiv) tableDiv.style.overflowX = 'auto'; 
                 element.style.borderRadius = originalRadius;
                 element.style.minHeight = originalMinHeight;
