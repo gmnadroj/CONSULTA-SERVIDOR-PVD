@@ -84,9 +84,7 @@
             width: 100%;
         }
 
-        /* =========================================
-           TOOLTIPS (POP-UPS FLUTUANTES)
-           ========================================= */
+        /* Tooltips Flutuantes */
         .floating-tooltip {
             background: #0284c7;
             color: #fff;
@@ -110,7 +108,6 @@
             opacity: 1;
             visibility: visible;
         }
-        /* Seta apontando para cima (para os Passos 1 e 2) */
         .floating-tooltip::after {
             content: '';
             position: absolute;
@@ -120,13 +117,11 @@
             border-width: 0 8px 8px 8px;
             border-color: transparent transparent #0284c7 transparent;
         }
-
-        /* Tooltip 3 (Fica ACIMA do botão PDF e aponta para baixo) */
         #tooltip3 {
             top: auto;
             bottom: 100%;
             left: 50%;
-            margin-left: -125px; /* Centraliza pela largura de 250px */
+            margin-left: -125px; 
             animation: float3 1.5s infinite;
         }
         #tooltip3::after {
@@ -138,15 +133,8 @@
             border-color: #0284c7 transparent transparent transparent;
         }
 
-        @keyframes float1 {
-            0%, 100% { margin-top: 12px; }
-            50% { margin-top: 6px; }
-        }
-        @keyframes float3 {
-            0%, 100% { margin-bottom: 12px; }
-            50% { margin-bottom: 6px; }
-        }
-        /* ========================================= */
+        @keyframes float1 { 0%, 100% { margin-top: 12px; } 50% { margin-top: 6px; } }
+        @keyframes float3 { 0%, 100% { margin-bottom: 12px; } 50% { margin-bottom: 6px; } }
         
         .controls-wrapper {
             display: flex;
@@ -225,31 +213,86 @@
         .text-red { color: #e0245e; }
         .text-gray { color: #657786; }
         
-        /* Área de Resultados e Tabela */
+        /* =========================================
+           ESTILOS DO RELATÓRIO PDF (Azul Petróleo)
+           ========================================= */
         .results-section { padding: 25px; min-height: 200px; }
         #loading { display: none; margin-top: 10px; color: #1da1f2; font-size: 14px; font-weight: 500; }
         
-        table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        th { text-align: left; padding: 12px 10px; border-bottom: 2px solid #94a3b8; color: #334155; font-size: 11px; text-transform: uppercase; }
-        td { padding: 12px 10px; border-bottom: 1px solid #cbd5e1; color: #0f172a; white-space: nowrap; }
-        tr:hover { background-color: #e0f2fe; } 
+        #printArea {
+            background: linear-gradient(to right, #072e50, #034b75);
+            color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
 
-        /* Bloco com Dados do Servidor */
-        .info-card {
+        /* Cabeçalho Oficial do PDF */
+        .pdf-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .pdf-header img {
+            max-height: 70px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        .pdf-header-text {
+            text-align: left;
+            line-height: 1.4;
+        }
+        .pdf-header-text h3 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .pdf-header-text p {
+            margin: 5px 0 0 0;
+            color: #a5d0f5;
+            font-size: 13px;
+        }
+
+        /* Bloco com Dados do Servidor (PDF) */
+        #printArea .info-card {
             display: flex; 
             flex-wrap: wrap;
             gap: 30px; 
-            background: #ffffff; 
+            background: rgba(255, 255, 255, 0.05); 
             padding: 18px 25px; 
             border-radius: 8px; 
-            border: 1px solid #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 25px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
         .info-item { display: flex; flex-direction: column; }
-        .info-label { font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: bold; margin-bottom: 4px; }
-        .info-value { font-size: 15px; color: #0f172a; font-weight: 600; }
-        .text-danger { color: #e0245e !important; }
+        .info-label { font-size: 11px; color: #a5d0f5; text-transform: uppercase; font-weight: bold; margin-bottom: 4px; }
+        .info-value { font-size: 15px; color: #ffffff; font-weight: 600; }
+        .text-danger { color: #fca5a5 !important; }
+
+        /* Tabela do PDF */
+        #printArea table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        #printArea th { 
+            text-align: left; 
+            padding: 12px 10px; 
+            border-bottom: 2px solid #a5d0f5; 
+            color: #a5d0f5; 
+            font-size: 11px; 
+            text-transform: uppercase; 
+        }
+        #printArea td { 
+            padding: 12px 10px; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+            color: #ffffff; 
+            /* CORREÇÃO DO CORTE NO PDF: text wrapping ativado */
+            white-space: normal; 
+            word-wrap: break-word;
+        }
+        #printArea tr:hover { background-color: rgba(255, 255, 255, 0.05); } 
 
         /* Rodapé */
         .footer {
@@ -270,47 +313,24 @@
         .footer-right { text-align: right; line-height: 1.6; }
         .footer-right img { max-height: 40px; margin-bottom: 10px; }
 
-        /* =========================================
-           RESPONSIVIDADE (Celulares e Tablets)
-           ========================================= */
+        /* Responsividade */
         @media (max-width: 768px) {
             body { padding: 10px 10px 40px 10px; }
-            
-            .app-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-                padding: 20px 15px;
-            }
+            .app-header { flex-direction: column; text-align: center; gap: 15px; padding: 20px 15px; }
             .app-logo { max-width: 200px; }
-            .app-title-group {
-                border-left: none;
-                border-top: 1px solid rgba(255, 255, 255, 0.2);
-                padding-left: 0;
-                padding-top: 15px;
-            }
+            .app-title-group { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-left: 0; padding-top: 15px; }
             .app-title-group h1 { font-size: 22px; }
             .app-title-group h2 { font-size: 12px; }
-            
             .controls-wrapper { flex-direction: column; }
-            .control-section {
-                border-right: none;
-                border-bottom: 1px solid #cbd5e1;
-                min-width: 100%;
-            }
+            .control-section { border-right: none; border-bottom: 1px solid #cbd5e1; min-width: 100%; }
             .control-section:last-child { border-bottom: none; }
-            
             .search-group { flex-direction: column; align-items: stretch; }
             .search-group input[type="text"] { width: 100%; }
             .search-group .btn { width: 100%; }
-            
             .info-card { flex-direction: column; gap: 15px; }
-            
-            .footer {
-                flex-direction: column;
-                gap: 30px;
-            }
+            .footer { flex-direction: column; gap: 30px; }
             .footer-left, .footer-center, .footer-right { text-align: center; }
+            .pdf-header { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -329,7 +349,6 @@
         <div class="controls-wrapper">
             <div class="control-section">
                 <h3>1. Carregar Base Consolidada (.xlsx)</h3>
-                <!-- Envolvido em div relative para o tooltip flutuar sobre ele -->
                 <div style="position: relative;">
                     <input type="file" id="fileInput" accept=".xlsx, .xls" />
                     <div id="tooltip1" class="floating-tooltip active">
@@ -353,9 +372,18 @@
         </div>
 
         <div class="results-section">
-            <div id="printArea" style="display: none; padding: 20px; background: #fff;">
+            <div id="printArea" style="display: none;">
                 
-                <h2 id="tituloSituacao" style="margin-top: 0; margin-bottom: 25px; font-size: 22px; color: #034b75; text-align: center;"></h2>
+                <!-- NOVO: Cabeçalho Oficial do Documento PDF -->
+                <div class="pdf-header">
+                    <img src="logo-did.png" alt="DID Logo">
+                    <div class="pdf-header-text">
+                        <h3>Diretoria de Inteligência de Dados</h3>
+                        <p>Gerência de Análise e Estatística<br>Documento Oficial de Consulta • DID © 2026</p>
+                    </div>
+                </div>
+
+                <h2 id="tituloSituacao" style="margin-top: 0; margin-bottom: 25px; font-size: 22px; color: #ffffff; text-align: center;"></h2>
                 
                 <div class="info-card">
                     <div class="info-item">
@@ -381,7 +409,7 @@
                 </div>
                 
                 <div id="tableContainer" style="overflow-x: auto; width: 100%;">
-                    <table id="resultTable" style="width: 100%;">
+                    <table id="resultTable">
                         <thead>
                             <tr>
                                 <th>COMPETÊNCIA</th>
@@ -402,7 +430,6 @@
                 </div>
             </div>
 
-            <!-- Botão de Download com o Tooltip 3 -->
             <div style="text-align: center; position: relative;">
                 <div id="tooltip3" class="floating-tooltip">
                     <strong>💡 Passo 3:</strong> Verifique os dados em tela e clique aqui para baixar o PDF.
@@ -437,7 +464,6 @@
         let globalData = [];
         let totalCompetencias = new Set();
 
-        // Controla qual Tooltip está visível
         function showTooltip(stepNumber) {
             document.getElementById('tooltip1').classList.remove('active');
             document.getElementById('tooltip2').classList.remove('active');
@@ -494,7 +520,7 @@
             document.getElementById('btnSearch').disabled = true;
             document.getElementById('printArea').style.display = 'none';
             document.getElementById('btnPdf').style.display = 'none';
-            showTooltip(null); // Esconde temporariamente enquanto carrega
+            showTooltip(null); 
 
             const reader = new FileReader();
             reader.onload = function(event) {
@@ -523,7 +549,6 @@
                         document.getElementById('btnSearch').disabled = false;
                         document.getElementById('searchInput').focus();
                         
-                        // Passo 1 concluído. Mostra a dica do Passo 2 (Consulta)
                         showTooltip(2);
                     } else {
                         throw new Error("O ficheiro está vazio.");
@@ -532,7 +557,7 @@
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('uploadStatus').textContent = "❌ Erro ao ler o ficheiro.";
                     document.getElementById('uploadStatus').className = "status text-red";
-                    showTooltip(1); // Retorna a dica 1 caso haja erro
+                    showTooltip(1); 
                 }
             };
             reader.readAsArrayBuffer(file);
@@ -560,7 +585,7 @@
 
             if (dfProf.length === 0) {
                 alert("CPF não encontrado na base de dados carregada.");
-                showTooltip(2); // Mantém no Passo 2 se não encontrar
+                showTooltip(2); 
                 return;
             }
 
@@ -613,12 +638,10 @@
             printArea.style.display = 'block';
             btnPdf.style.display = 'inline-block';
             
-            // Passo 2 concluído. Mostra a dica do Passo 3 (Download)
             showTooltip(3);
         }
 
         document.getElementById('btnPdf').addEventListener('click', function() {
-            // Ao clicar para gerar PDF, finaliza o processo e esconde os avisos.
             showTooltip(null);
             
             const element = document.getElementById('printArea');
@@ -627,8 +650,14 @@
             
             if (tableDiv) tableDiv.style.overflowX = 'visible';
             
+            // Adiciona preenchimento extra para que o azul cubra a folha PDF inteira
+            const originalPadding = element.style.padding;
+            const originalRadius = element.style.borderRadius;
+            element.style.padding = '15mm';
+            element.style.borderRadius = '0';
+            
             const opt = {
-                margin:       [10, 10, 10, 10], 
+                margin:       0, // Margem zero garante o fundo azul de ponta a ponta
                 filename:     `Consulta_CNES_${nomeProf}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { 
@@ -642,6 +671,9 @@
             
             html2pdf().set(opt).from(element).save().then(() => {
                 if (tableDiv) tableDiv.style.overflowX = 'auto'; 
+                // Restaura o formato original após gerar o PDF
+                element.style.padding = originalPadding;
+                element.style.borderRadius = originalRadius;
             });
         });
     </script>
