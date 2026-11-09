@@ -104,106 +104,47 @@
             text-align: left;
             animation: float1 1.5s infinite;
         }
-        .floating-tooltip.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .floating-tooltip.active { opacity: 1; visibility: visible; }
         .floating-tooltip::after {
-            content: '';
-            position: absolute;
-            border-style: solid;
-            bottom: 100%;
-            left: 20px;
-            border-width: 0 8px 8px 8px;
-            border-color: transparent transparent #0284c7 transparent;
+            content: ''; position: absolute; border-style: solid;
+            bottom: 100%; left: 20px; border-width: 0 8px 8px 8px; border-color: transparent transparent #0284c7 transparent;
         }
         #tooltip3 {
-            top: auto;
-            bottom: 100%;
-            left: 50%;
-            margin-left: -125px; 
-            animation: float3 1.5s infinite;
+            top: auto; bottom: 100%; left: 50%; margin-left: -125px; animation: float3 1.5s infinite;
         }
         #tooltip3::after {
-            bottom: auto;
-            top: 100%;
-            left: 50%;
-            margin-left: -8px;
-            border-width: 8px 8px 0 8px;
-            border-color: #0284c7 transparent transparent transparent;
+            bottom: auto; top: 100%; left: 50%; margin-left: -8px; border-width: 8px 8px 0 8px; border-color: #0284c7 transparent transparent transparent;
         }
-
         @keyframes float1 { 0%, 100% { margin-top: 12px; } 50% { margin-top: 6px; } }
         @keyframes float3 { 0%, 100% { margin-bottom: 12px; } 50% { margin-bottom: 6px; } }
         
-        .controls-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            border-bottom: 1px solid #cbd5e1; 
-        }
-        .control-section {
-            flex: 1;
-            min-width: 320px;
-            padding: 25px;
-            border-right: 1px solid #cbd5e1;
-            box-sizing: border-box;
-        }
+        .controls-wrapper { display: flex; flex-wrap: wrap; border-bottom: 1px solid #cbd5e1; }
+        .control-section { flex: 1; min-width: 320px; padding: 25px; border-right: 1px solid #cbd5e1; box-sizing: border-box; }
         .control-section:last-child { border-right: none; }
         
         h3 { font-size: 16px; font-weight: bold; margin-top: 0; color: #14171a; }
         
-        /* Estilo da Entrada de Texto (CPF) */
+        /* Estilo da Entrada de Texto */
         input[type="text"] { 
-            flex: 1;
-            padding: 12px 18px; 
-            border: 1px solid #94a3b8; 
-            border-radius: 9999px; 
-            font-size: 20px; 
-            font-weight: 800; 
-            letter-spacing: 2px; 
-            color: #034b75; 
-            outline: none; 
-            transition: 0.2s; 
-            background-color: #ffffff;
-            box-sizing: border-box;
+            flex: 1; padding: 12px 18px; border: 1px solid #94a3b8; border-radius: 9999px; 
+            font-size: 16px; font-weight: 700; color: #034b75; outline: none; transition: 0.2s; 
+            background-color: #ffffff; box-sizing: border-box;
         }
         input[type="text"]:focus { border-color: #1da1f2; }
-        input[type="text"]::placeholder {
-            font-size: 14px; 
-            font-weight: 400; 
-            letter-spacing: normal;
-            color: #94a3b8;
-        }
+        input[type="text"]::placeholder { font-size: 14px; font-weight: 400; color: #94a3b8; }
         
         input[type="file"] { font-size: 14px; color: #657786; width: 100%; margin-bottom: 5px; }
         input[type="file"]::file-selector-button {
-            padding: 8px 16px;
-            border-radius: 9999px;
-            border: 1px solid #1da1f2;
-            background-color: #ffffff;
-            color: #1da1f2;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-right: 10px;
+            padding: 8px 16px; border-radius: 9999px; border: 1px solid #1da1f2;
+            background-color: #ffffff; color: #1da1f2; font-weight: bold; cursor: pointer;
+            transition: 0.2s; margin-right: 10px;
         }
         input[type="file"]::file-selector-button:hover { background-color: #e8f5fd; }
         
         /* Botões */
-        .btn { 
-            padding: 10px 24px; 
-            background-color: #1da1f2; 
-            color: white; 
-            border: none; 
-            border-radius: 9999px; 
-            cursor: pointer; 
-            font-size: 15px; 
-            font-weight: bold; 
-            transition: 0.2s; 
-        }
+        .btn { padding: 10px 24px; background-color: #1da1f2; color: white; border: none; border-radius: 9999px; cursor: pointer; font-size: 15px; font-weight: bold; transition: 0.2s; }
         .btn:hover:not(:disabled) { background-color: #1a91da; }
         .btn:disabled { background-color: #a5d0f5; cursor: not-allowed; opacity: 0.7; }
-
         .btn-success { background-color: #10b981; margin-top: 15px; font-size: 16px; }
         .btn-success:hover:not(:disabled) { background-color: #059669; }
         
@@ -213,106 +154,73 @@
         .text-red { color: #e0245e; }
         .text-gray { color: #657786; }
         
+        /* Múltiplos Resultados */
+        #selectionArea { display: none; padding: 25px; border-bottom: 1px solid #cbd5e1; background-color: #f8fafc; }
+        .server-option { padding: 10px 15px; border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 8px; background: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+        .server-option:hover { border-color: #1da1f2; background-color: #f0f8ff; }
+        .server-name { font-weight: bold; color: #034b75; }
+        .server-doc { font-size: 12px; color: #64748b; }
+
         /* =========================================
-           ESTILOS DO RELATÓRIO PDF (Azul Petróleo)
+           ESTILOS DO RELATÓRIO PDF (Azul Petróleo - Full Bleed)
            ========================================= */
-        .results-section { padding: 25px; min-height: 200px; }
+        .results-section { padding: 0; min-height: 200px; }
         #loading { display: none; margin-top: 10px; color: #1da1f2; font-size: 14px; font-weight: 500; }
         
         #printArea {
             background: linear-gradient(to right, #072e50, #034b75);
             color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        /* Cabeçalho Oficial do PDF */
-        .pdf-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .pdf-header img {
-            max-height: 70px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-        }
-        .pdf-header-text {
-            text-align: left;
-            line-height: 1.4;
-        }
-        .pdf-header-text h3 {
+            padding: 40px; 
             margin: 0;
-            color: #ffffff;
-            font-size: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .pdf-header-text p {
-            margin: 5px 0 0 0;
-            color: #a5d0f5;
-            font-size: 13px;
+            width: 100%;
+            min-height: 100%; /* Ajuda no Full Bleed */
+            box-sizing: border-box;
         }
 
-        /* Bloco com Dados do Servidor (PDF) */
+        /* Envolve a área do print no ecrã web para manter a estética do site sem afetar o PDF */
+        .print-container-web {
+            padding: 25px;
+        }
+        .print-container-web #printArea {
+            border-radius: 8px; /* Cantos arredondados só na web */
+        }
+
+        /* Cabeçalho Oficial do PDF (Novo Título) */
+        .pdf-header {
+            display: flex; align-items: center; justify-content: center; gap: 25px;
+            margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .pdf-header img { max-height: 70px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+        .pdf-header-text { text-align: left; line-height: 1.4; }
+        .pdf-header-text h3 { margin: 0; color: #ffffff; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .pdf-header-text p { margin: 5px 0 0 0; color: #a5d0f5; font-size: 13px; }
+
         #printArea .info-card {
-            display: flex; 
-            flex-wrap: wrap;
-            gap: 30px; 
-            background: rgba(255, 255, 255, 0.05); 
-            padding: 18px 25px; 
-            border-radius: 8px; 
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 25px;
+            display: flex; flex-wrap: wrap; gap: 30px; background: rgba(255, 255, 255, 0.05); 
+            padding: 18px 25px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 25px;
         }
         .info-item { display: flex; flex-direction: column; }
         .info-label { font-size: 11px; color: #a5d0f5; text-transform: uppercase; font-weight: bold; margin-bottom: 4px; }
         .info-value { font-size: 15px; color: #ffffff; font-weight: 600; }
         .text-danger { color: #fca5a5 !important; }
 
-        /* Tabela do PDF */
         #printArea table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        #printArea th { 
-            text-align: left; 
-            padding: 12px 10px; 
-            border-bottom: 2px solid #a5d0f5; 
-            color: #a5d0f5; 
-            font-size: 11px; 
-            text-transform: uppercase; 
-        }
-        #printArea td { 
-            padding: 12px 10px; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
-            color: #ffffff; 
-            white-space: normal; 
-            word-wrap: break-word;
-        }
+        #printArea th { text-align: left; padding: 12px 10px; border-bottom: 2px solid #a5d0f5; color: #a5d0f5; font-size: 11px; text-transform: uppercase; }
+        #printArea td { padding: 12px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; white-space: normal; word-wrap: break-word; }
         #printArea tr:hover { background-color: rgba(255, 255, 255, 0.05); } 
 
-        /* Rodapé */
+        /* Rodapé Ajustado */
         .footer {
-            margin-top: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #ffffff;
-            font-size: 12px;
-            width: 100%;
-            max-width: 1100px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-top: 40px; display: flex; justify-content: space-between; align-items: center;
+            color: #ffffff; font-size: 12px; width: 100%; max-width: 1100px; margin-left: auto; margin-right: auto;
         }
         .footer-logo { max-height: 50px; width: auto; }
+        /* Logo central da DID ligeiramente maior, sem texto debaixo */
         .footer-center { text-align: center; display: flex; flex-direction: column; align-items: center; }
-        .footer-center img { max-height: 40px; margin-bottom: 8px; }
+        .footer-center img { max-height: 60px; } 
         .footer-right { text-align: right; line-height: 1.6; }
         .footer-right img { max-height: 40px; margin-bottom: 10px; }
 
-        /* Responsividade */
         @media (max-width: 768px) {
             body { padding: 10px 10px 40px 10px; }
             .app-header { flex-direction: column; text-align: center; gap: 15px; padding: 20px 15px; }
@@ -351,327 +259,4 @@
                 <div style="position: relative;">
                     <input type="file" id="fileInput" accept=".xlsx, .xls" />
                     <div id="tooltip1" class="floating-tooltip active">
-                        <strong>💡 Passo 1:</strong> Clique em "Escolher arquivo" e selecione a base consolidada em Excel.
-                    </div>
-                </div>
-                <div id="loading">A ler e processar o ficheiro... Por favor, aguarde.</div>
-                <div id="uploadStatus" class="status text-gray">Nenhum ficheiro carregado.</div>
-            </div>
-
-            <div class="control-section">
-                <h3>2. Consultar Profissional (CPF)</h3>
-                <div class="search-group" style="position: relative;">
-                    <input type="text" id="searchInput" placeholder="Digite o CPF do profissional" disabled />
-                    <button id="btnSearch" class="btn" disabled>Consultar</button>
-                    <div id="tooltip2" class="floating-tooltip">
-                        <strong>💡 Passo 2:</strong> Digite apenas os números do CPF e clique em Consultar.
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="results-section">
-            <div id="printArea" style="display: none;">
-                
-                <div class="pdf-header">
-                    <img src="logo_did.png" alt="DID Logo">
-                    <div class="pdf-header-text">
-                        <h3>Diretoria de Inteligência de Dados</h3>
-                        <p>Gerência de Análise e Estatística<br>Documento Oficial de Consulta • DID © 2026</p>
-                    </div>
-                </div>
-
-                <h2 id="tituloSituacao" style="margin-top: 0; margin-bottom: 25px; font-size: 22px; color: #ffffff; text-align: center;"></h2>
-                
-                <div class="info-card">
-                    <div class="info-item">
-                        <span class="info-label">Nome Completo</span>
-                        <span class="info-value" id="lblNome"></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">CPF</span>
-                        <span class="info-value" id="lblCPF"></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">CBO</span>
-                        <span class="info-value" id="lblCBO"></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Descrição do CBO</span>
-                        <span class="info-value" id="lblDescricaoCBO"></span>
-                    </div>
-                    <div class="info-item" id="boxDesligamento" style="display: none;">
-                        <span class="info-label">Data de Desligamento</span>
-                        <span class="info-value text-danger" id="lblDesligamento"></span>
-                    </div>
-                </div>
-                
-                <div id="tableContainer" style="overflow-x: auto; width: 100%;">
-                    <table id="resultTable">
-                        <thead>
-                            <tr>
-                                <th>COMPETÊNCIA</th>
-                                <th>DISTRITO</th>
-                                <th>CNES</th>
-                                <th>EAS</th>
-                                <th>DESCRIÇÃO DO CBO</th>
-                                <th>CBO</th>
-                                <th>INE</th>
-                                <th>EQUIPE</th>
-                                <th>TIPO</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Linhas geradas via JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div style="text-align: center; position: relative;">
-                <div id="tooltip3" class="floating-tooltip">
-                    <strong>💡 Passo 3:</strong> Verifique os dados em tela e clique aqui para baixar o PDF.
-                </div>
-                <button id="btnPdf" class="btn btn-success" style="display: none;">
-                    ⬇ Baixar Espelho em PDF
-                </button>
-            </div>
-            
-        </div>
-    </div>
-
-    <div class="footer">
-        <div class="footer-left">
-            <img src="logo_pmm_white.png" alt="Prefeitura de Manaus" class="footer-logo">
-        </div>
-        <div class="footer-center">
-            <img src="logo_did.png" alt="DID">
-            <div>Diretoria de Inteligência de Dados</div>
-            <div>Gerência de Análise e Estatística</div>
-            <div>DID © 2026</div>
-        </div>
-        <div class="footer-right">
-            <img src="logo-semsa-cabecalho-white.png" alt="SEMSA"><br>
-            Av. Maceió, 160 - Adrianópolis<br>
-            Manaus - AM, 69029-520<br>
-            Telefone: (92) 3214-5072
-        </div>
-    </div>
-    
-    <script>
-        let globalData = [];
-        let totalCompetencias = new Set();
-
-        function showTooltip(stepNumber) {
-            document.getElementById('tooltip1').classList.remove('active');
-            document.getElementById('tooltip2').classList.remove('active');
-            document.getElementById('tooltip3').classList.remove('active');
-            
-            if (stepNumber) {
-                document.getElementById('tooltip' + stepNumber).classList.add('active');
-            }
-        }
-
-        document.getElementById('fileInput').value = "";
-        document.getElementById('fileInput').addEventListener('change', handleFile);
-        document.getElementById('btnSearch').addEventListener('click', searchProfessional);
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') searchProfessional();
-        });
-
-        function getGenero(nome) {
-            const primeiroNome = nome.trim().split(' ')[0].toUpperCase();
-            const finaisFemininos = ['A', 'Z'];
-            const nomesFemininosComuns = ['ELIANE', 'ALINE', 'SIMONE', 'MICHELE', 'RAQUEL', 'ESTER', 'RUTH', 'CARMEM', 'CARMEN', 'MIRIAN', 'SUELEN', 'KAREN', 'IVONE', 'CLEIDE', 'LILIAN', 'IRIS', 'EVELIN', 'EVELYN', 'FRANCINE'];
-            
-            if (finaisFemininos.some(letra => primeiroNome.endsWith(letra)) || nomesFemininosComuns.includes(primeiroNome)) {
-                return 'F'; 
-            }
-            return 'M'; 
-        }
-
-        function formatExcelDate(excelDate) {
-            if (!excelDate) return "";
-            if (typeof excelDate === "string" && excelDate.includes("/")) return String(excelDate).trim();
-            
-            let num = parseFloat(excelDate);
-            if (!isNaN(num)) {
-                let utc_days = Math.floor(num - 25569);
-                let date_info = new Date(utc_days * 86400 * 1000);
-                let dataLocal = new Date(date_info.getTime() + (date_info.getTimezoneOffset() * 60000));
-                
-                let dia = String(dataLocal.getDate()).padStart(2, '0');
-                let mes = String(dataLocal.getMonth() + 1).padStart(2, '0');
-                let ano = dataLocal.getFullYear();
-                return `${dia}/${mes}/${ano}`;
-            }
-            return excelDate;
-        }
-
-        function handleFile(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('uploadStatus').textContent = "";
-            document.getElementById('searchInput').disabled = true;
-            document.getElementById('btnSearch').disabled = true;
-            document.getElementById('printArea').style.display = 'none';
-            document.getElementById('btnPdf').style.display = 'none';
-            showTooltip(null); 
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                try {
-                    const data = new Uint8Array(event.target.result);
-                    const workbook = XLSX.read(data, {type: 'array'});
-                    const firstSheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[firstSheetName];
-                    
-                    globalData = XLSX.utils.sheet_to_json(worksheet, {defval: ""});
-                    
-                    totalCompetencias = new Set();
-                    globalData.forEach(row => {
-                        let val = String(row.CMPT_CNES).trim();
-                        if (val !== "" && val.toUpperCase() !== "CMPT_CNES" && !isNaN(val)) {
-                            totalCompetencias.add(val);
-                        }
-                    });
-
-                    document.getElementById('loading').style.display = 'none';
-                    
-                    if(globalData.length > 0) {
-                        document.getElementById('uploadStatus').textContent = `✅ Base carregada com sucesso! Identificadas ${totalCompetencias.size} competências e ${globalData.length.toLocaleString('pt-BR')} registos.`;
-                        document.getElementById('uploadStatus').className = "status text-green";
-                        document.getElementById('searchInput').disabled = false;
-                        document.getElementById('btnSearch').disabled = false;
-                        document.getElementById('searchInput').focus();
-                        
-                        showTooltip(2);
-                    } else {
-                        throw new Error("O ficheiro está vazio.");
-                    }
-                } catch (error) {
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('uploadStatus').textContent = "❌ Erro ao ler o ficheiro.";
-                    document.getElementById('uploadStatus').className = "status text-red";
-                    showTooltip(1); 
-                }
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function searchProfessional() {
-            const inputRaw = document.getElementById('searchInput').value.replace(/\D/g, '');
-            const printArea = document.getElementById('printArea');
-            const tbody = document.querySelector('#resultTable tbody');
-            const btnPdf = document.getElementById('btnPdf');
-            
-            printArea.style.display = 'none';
-            btnPdf.style.display = 'none';
-            tbody.innerHTML = "";
-
-            if (!inputRaw) return;
-
-            const inputNum = parseInt(inputRaw, 10);
-
-            const dfProf = globalData.filter(row => {
-                const cpfExcel = String(row.CPF_PROF || row.CPF || "").replace(/\D/g, '');
-                if (!cpfExcel) return false;
-                return parseInt(cpfExcel, 10) === inputNum;
-            });
-
-            if (dfProf.length === 0) {
-                alert("CPF não encontrado na base de dados carregada.");
-                showTooltip(2); 
-                return;
-            }
-
-            const nomeDoServidor = dfProf[0]['NOME_PROF'] || "Servidor(a) não identificado";
-            const anoBase = Array.from(totalCompetencias)[0].substring(0, 4);
-            const genero = getGenero(nomeDoServidor);
-            const textoServidor = genero === 'F' ? "da servidora" : "do servidor";
-            
-            document.getElementById('tituloSituacao').textContent = `Situação ${textoServidor} no CNES nas competências de ${anoBase}`;
-            document.getElementById('lblNome').textContent = nomeDoServidor;
-            
-            const cpfExibicao = String(inputRaw).padStart(11, '0');
-            const cpfFormatado = cpfExibicao.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-            document.getElementById('lblCPF').textContent = cpfFormatado;
-            
-            document.getElementById('lblCBO').textContent = String(dfProf[0]['COD_CBO'] || "-").trim();
-            document.getElementById('lblDescricaoCBO').textContent = String(dfProf[0]['DESCRICAO'] || "-").trim();
-
-            let dtDesligamento = "";
-            for (let i = 0; i < dfProf.length; i++) {
-                let valDT = dfProf[i]['DT_DESLIGAMENTO'] || dfProf[i]['DATA_DESLIGAMENTO'] || "";
-                if (String(valDT).trim() !== "") {
-                    dtDesligamento = formatExcelDate(valDT);
-                    break;
-                }
-            }
-
-            const boxDesligamento = document.getElementById('boxDesligamento');
-            if (dtDesligamento !== "") {
-                document.getElementById('lblDesligamento').textContent = dtDesligamento;
-                boxDesligamento.style.display = 'flex';
-            } else {
-                boxDesligamento.style.display = 'none';
-            }
-
-            dfProf.sort((a, b) => String(a.CMPT_CNES).localeCompare(String(b.CMPT_CNES)));
-            
-            const colunas = ['CMPT_CNES', 'DISTRITO', 'CNES', 'EAS', 'DESCRICAO', 'COD_CBO', 'INE', 'EQUIPE', 'TIPO'];
-            
-            dfProf.forEach(row => {
-                const tr = document.createElement('tr');
-                colunas.forEach(col => {
-                    const td = document.createElement('td');
-                    td.textContent = (row[col] !== undefined && String(row[col]).trim() !== "") ? row[col] : "-";
-                    tr.appendChild(td);
-                });
-                tbody.appendChild(tr);
-            });
-            
-            printArea.style.display = 'block';
-            btnPdf.style.display = 'inline-block';
-            
-            showTooltip(3);
-        }
-
-        document.getElementById('btnPdf').addEventListener('click', function() {
-            showTooltip(null);
-            
-            const element = document.getElementById('printArea');
-            const nomeProf = document.getElementById('lblNome').textContent.replace(/\s+/g, '_');
-            const tableDiv = document.getElementById('tableContainer');
-            
-            if (tableDiv) tableDiv.style.overflowX = 'visible';
-            
-            const originalPadding = element.style.padding;
-            const originalRadius = element.style.borderRadius;
-            element.style.padding = '15mm';
-            element.style.borderRadius = '0';
-            
-            const opt = {
-                margin:       0, 
-                filename:     `Consulta_CNES_${nomeProf}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { 
-                    scale: 2, 
-                    scrollY: 0, 
-                    windowWidth: document.documentElement.offsetWidth,
-                    useCORS: true 
-                },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' } 
-            };
-            
-            html2pdf().set(opt).from(element).save().then(() => {
-                if (tableDiv) tableDiv.style.overflowX = 'auto'; 
-                element.style.padding = originalPadding;
-                element.style.borderRadius = originalRadius;
-            });
-        });
-    </script>
-</body>
-</html>
+                        <strong>💡
