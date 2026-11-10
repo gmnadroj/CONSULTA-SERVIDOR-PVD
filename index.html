@@ -615,32 +615,32 @@
             if (!rawInput) return;
 
             const inputOnlyNumbers = rawInput.replace(/\D/g, '');
+            const inputCpfPad = inputOnlyNumbers ? inputOnlyNumbers.padStart(11, '0') : "";
             const hasLetters = /[A-ZÀ-Ú]/.test(rawInput);
 
             groupedData = {};
             
             globalData.forEach(row => {
-                const cpfExcelRaw = String(row.CPF_PROF || row.CPF || "").replace(/\D/g, '');
-                // Remove espaços invisíveis ou duplos do nome no Excel para padronizar
-                const nomeExcel = String(row.NOME_PROF || "").trim().replace(/\s+/g, ' ').toUpperCase();
+                let cpfExcelRaw = String(row.CPF_PROF || row.CPF || "").replace(/\D/g, '');
                 
-                // Trata a entrada do usuário removendo espaços extras
+                // O SEGREDO DA UNIFICAÇÃO: Padronizamos sempre para 11 dígitos, ignorando se o Excel apagou o zero ou não.
+                if (cpfExcelRaw) cpfExcelRaw = cpfExcelRaw.padStart(11, '0');
+                
+                const nomeExcel = String(row.NOME_PROF || "").trim().replace(/\s+/g, ' ').toUpperCase();
                 const inputClean = rawInput.replace(/\s+/g, ' ');
 
                 let match = false;
                 
-                if (!hasLetters && inputOnlyNumbers.length > 0 && cpfExcelRaw === inputOnlyNumbers) {
+                // 1. Busca pelo CPF exato formatado
+                if (!hasLetters && inputCpfPad.length > 0 && cpfExcelRaw === inputCpfPad) {
                     match = true;
                 }
+                // 2. Busca pelo Nome parcial
                 else if (hasLetters && inputClean.length > 2 && nomeExcel.includes(inputClean)) {
                     match = true;
                 }
 
                 if (match) {
-                    // SEGREDO DA UNIFICAÇÃO: A chave (keyId) agora é SEMPRE o CPF.
-                    // Se a mesma pessoa (mesmo CPF) estiver escrita com um espaço extra ou um "DA" a mais,
-                    // ela será forçada a entrar no mesmo grupo do CPF numérico!
-                    // Só usa o Nome como chave se o CPF estiver milagrosamente vazio no Excel.
                     const keyId = cpfExcelRaw ? cpfExcelRaw : nomeExcel;
                     if (!groupedData[keyId]) {
                         groupedData[keyId] = [];
