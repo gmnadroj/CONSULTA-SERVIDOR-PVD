@@ -431,7 +431,6 @@
                             <span class="info-label">Nome Completo</span>
                             <span class="info-value" id="lblNome"></span>
                         </div>
-                        <!-- NOVA ÁREA: Matrícula -->
                         <div class="info-item">
                             <span class="info-label">Matrícula</span>
                             <span class="info-value" id="lblMatricula"></span>
@@ -619,7 +618,7 @@
             
             if (!rawInput) return;
 
-            // Limpa tudo que não for letra ou número (remove pontos, traços, espaços etc)
+            // Limpa o input do usuário para comparar apenas números ou letras
             const cleanInput = rawInput.replace(/[^A-Z0-9]/g, '');
             const inputOnlyNumbers = rawInput.replace(/\D/g, '');
 
@@ -629,27 +628,29 @@
                 const cpfExcelRaw = String(row.CPF_PROF || row.CPF || "").replace(/\D/g, '');
                 const nomeExcel = String(row.NOME_PROF || "").trim().toUpperCase();
                 
-                // Pega a matrícula e retira também todos os hífens ou pontos para comparar
                 const matExcelRaw = String(row.MATRICULA || row.MAT_PROF || "").trim().toUpperCase();
                 const matExcelClean = matExcelRaw.replace(/[^A-Z0-9]/g, '');
 
                 let match = false;
                 
-                // 1. Verifica se bate com o CPF numérico
-                if (inputOnlyNumbers.length > 0 && cpfExcelRaw === inputOnlyNumbers) {
+                // 1. Verifica igualdade exata (com pontos e traços) no CPF ou Matrícula
+                if (rawInput === String(row.CPF_PROF || row.CPF || "").trim().toUpperCase() || rawInput === matExcelRaw) {
                     match = true;
                 }
-                // 2. Verifica se bate EXATAMENTE com a Matrícula (mesmo tendo letras, ex: 123456X)
+                // 2. Verifica se bate o CPF numérico
+                else if (inputOnlyNumbers.length > 0 && cpfExcelRaw === inputOnlyNumbers) {
+                    match = true;
+                }
+                // 3. Verifica se bate a Matrícula limpa (sem pontos, traços ou espaços)
                 else if (cleanInput.length > 0 && matExcelClean === cleanInput) {
                     match = true;
                 }
-                // 3. Verifica se bate PARCIALMENTE com o Nome
+                // 4. Verifica se bate parcialmente o Nome
                 else if (rawInput.length > 2 && nomeExcel.includes(rawInput)) {
                     match = true;
                 }
 
                 if (match) {
-                    // Agrupa pelo CPF (se existir), senão tenta Matrícula, senão usa o Nome
                     const keyId = cpfExcelRaw ? cpfExcelRaw : (matExcelClean ? matExcelClean : nomeExcel);
                     if (!groupedData[keyId]) {
                         groupedData[keyId] = [];
@@ -686,7 +687,6 @@
                 
                 const option = document.createElement('div');
                 option.className = 'server-option';
-                // Adicionado a Matrícula à lista de seleção para ajudar a identificar
                 option.innerHTML = `
                     <span class="server-name">${nome}</span>
                     <span class="server-doc">Matrícula: ${matRaw} &nbsp;|&nbsp; CPF: ${cpfFormatado}</span>
