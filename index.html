@@ -431,6 +431,11 @@
                             <span class="info-label">Nome Completo</span>
                             <span class="info-value" id="lblNome"></span>
                         </div>
+                        <!-- NOVA ÁREA: Matrícula -->
+                        <div class="info-item">
+                            <span class="info-label">Matrícula</span>
+                            <span class="info-value" id="lblMatricula"></span>
+                        </div>
                         <div class="info-item">
                             <span class="info-label">CPF</span>
                             <span class="info-value" id="lblCPF"></span>
@@ -614,35 +619,38 @@
             
             if (!rawInput) return;
 
+            // Limpa tudo que não for letra ou número (remove pontos, traços, espaços etc)
+            const cleanInput = rawInput.replace(/[^A-Z0-9]/g, '');
             const inputOnlyNumbers = rawInput.replace(/\D/g, '');
-            const hasLetters = /[A-ZÀ-Ú]/.test(rawInput);
-            const inputNum = inputOnlyNumbers ? parseInt(inputOnlyNumbers, 10) : null;
 
             groupedData = {};
             
             globalData.forEach(row => {
                 const cpfExcelRaw = String(row.CPF_PROF || row.CPF || "").replace(/\D/g, '');
-                const cpfExcelNum = cpfExcelRaw ? parseInt(cpfExcelRaw, 10) : null;
                 const nomeExcel = String(row.NOME_PROF || "").trim().toUpperCase();
+                
+                // Pega a matrícula e retira também todos os hífens ou pontos para comparar
                 const matExcelRaw = String(row.MATRICULA || row.MAT_PROF || "").trim().toUpperCase();
-                const matExcelNumbers = matExcelRaw.replace(/\D/g, '');
+                const matExcelClean = matExcelRaw.replace(/[^A-Z0-9]/g, '');
 
                 let match = false;
                 
-                if (hasLetters) {
-                    if (nomeExcel.includes(rawInput) || (matExcelRaw && matExcelRaw === rawInput)) {
-                        match = true;
-                    }
-                } else if (inputOnlyNumbers.length > 0) {
-                    if (cpfExcelNum !== null && cpfExcelNum === inputNum) {
-                        match = true;
-                    } else if (matExcelNumbers && (matExcelNumbers === inputOnlyNumbers || parseInt(matExcelNumbers, 10) === inputNum)) {
-                        match = true;
-                    }
+                // 1. Verifica se bate com o CPF numérico
+                if (inputOnlyNumbers.length > 0 && cpfExcelRaw === inputOnlyNumbers) {
+                    match = true;
+                }
+                // 2. Verifica se bate EXATAMENTE com a Matrícula (mesmo tendo letras, ex: 123456X)
+                else if (cleanInput.length > 0 && matExcelClean === cleanInput) {
+                    match = true;
+                }
+                // 3. Verifica se bate PARCIALMENTE com o Nome
+                else if (rawInput.length > 2 && nomeExcel.includes(rawInput)) {
+                    match = true;
                 }
 
                 if (match) {
-                    const keyId = cpfExcelNum !== null ? String(cpfExcelNum) : nomeExcel;
+                    // Agrupa pelo CPF (se existir), senão tenta Matrícula, senão usa o Nome
+                    const keyId = cpfExcelRaw ? cpfExcelRaw : (matExcelClean ? matExcelClean : nomeExcel);
                     if (!groupedData[keyId]) {
                         groupedData[keyId] = [];
                     }
@@ -672,14 +680,16 @@
             uniqueKeys.forEach(key => {
                 const dataSet = groupedData[key];
                 const nome = dataSet[0]['NOME_PROF'] || "Não identificado";
+                const matRaw = String(dataSet[0]['MATRICULA'] || dataSet[0]['MAT_PROF'] || "-").trim();
                 const rawCpf = String(dataSet[0]['CPF_PROF'] || dataSet[0]['CPF'] || "").replace(/\D/g, '');
                 const cpfFormatado = rawCpf ? rawCpf.padStart(11, '0').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4") : "Sem CPF";
                 
                 const option = document.createElement('div');
                 option.className = 'server-option';
+                // Adicionado a Matrícula à lista de seleção para ajudar a identificar
                 option.innerHTML = `
                     <span class="server-name">${nome}</span>
-                    <span class="server-doc">CPF: ${cpfFormatado}</span>
+                    <span class="server-doc">Matrícula: ${matRaw} &nbsp;|&nbsp; CPF: ${cpfFormatado}</span>
                 `;
                 
                 option.onclick = function() {
@@ -699,13 +709,16 @@
             tbody.innerHTML = "";
 
             const nomeDoServidor = dfProf[0]['NOME_PROF'] || "Servidor(a) não identificado";
+            const rawMatricula = String(dfProf[0]['MATRICULA'] || dfProf[0]['MAT_PROF'] || "-").trim();
             const rawCpf = String(dfProf[0]['CPF_PROF'] || dfProf[0]['CPF'] || "").replace(/\D/g, '');
             const anoBase = Array.from(totalCompetencias)[0].substring(0, 4);
             const genero = getGenero(nomeDoServidor);
             const textoServidor = genero === 'F' ? "da servidora" : "do servidor";
             
             document.getElementById('tituloSituacao').textContent = `Situação ${textoServidor} no CNES nas competências de ${anoBase}`;
+            
             document.getElementById('lblNome').textContent = nomeDoServidor;
+            document.getElementById('lblMatricula').textContent = rawMatricula;
             
             if (rawCpf && rawCpf.length > 0) {
                 const cpfExibicao = rawCpf.padStart(11, '0');
@@ -765,15 +778,12 @@
             const originalRadius = element.style.borderRadius;
             const originalMinHeight = element.style.minHeight;
             
-            // Mede a altura real do conteúdo antes de aplicar o preenchimento da folha A4
             element.style.minHeight = '0px';
             const naturalHeight = element.scrollHeight;
             const onePageHeightPx = element.offsetWidth * (210 / 297);
             
-            // Calcula quantas páginas são realmente necessárias para os dados
             const expectedPages = Math.max(1, Math.ceil(naturalHeight / onePageHeightPx));
             
-            // Preenche 100% da altura da(s) página(s) necessária(s) com o fundo azul
             element.style.borderRadius = '0';
             element.style.minHeight = Math.ceil(expectedPages * onePageHeightPx) + 'px';
             
@@ -791,7 +801,6 @@
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' } 
             };
             
-            // Gera o PDF e remove qualquer página sobressalente causada por arredondamento de pixels
             html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
                 while (pdf.internal.getNumberOfPages() > expectedPages) {
                     pdf.deletePage(pdf.internal.getNumberOfPages());
