@@ -621,20 +621,26 @@
             
             globalData.forEach(row => {
                 const cpfExcelRaw = String(row.CPF_PROF || row.CPF || "").replace(/\D/g, '');
-                const nomeExcel = String(row.NOME_PROF || "").trim().toUpperCase();
+                // Remove espaços invisíveis ou duplos do nome no Excel para padronizar
+                const nomeExcel = String(row.NOME_PROF || "").trim().replace(/\s+/g, ' ').toUpperCase();
+                
+                // Trata a entrada do usuário removendo espaços extras
+                const inputClean = rawInput.replace(/\s+/g, ' ');
 
                 let match = false;
                 
-                // 1. Busca por CPF numérico (só tenta se o usuário não digitou letras)
                 if (!hasLetters && inputOnlyNumbers.length > 0 && cpfExcelRaw === inputOnlyNumbers) {
                     match = true;
                 }
-                // 2. Busca parcial pelo Nome (só tenta se o usuário digitou letras)
-                else if (hasLetters && rawInput.length > 2 && nomeExcel.includes(rawInput)) {
+                else if (hasLetters && inputClean.length > 2 && nomeExcel.includes(inputClean)) {
                     match = true;
                 }
 
                 if (match) {
+                    // SEGREDO DA UNIFICAÇÃO: A chave (keyId) agora é SEMPRE o CPF.
+                    // Se a mesma pessoa (mesmo CPF) estiver escrita com um espaço extra ou um "DA" a mais,
+                    // ela será forçada a entrar no mesmo grupo do CPF numérico!
+                    // Só usa o Nome como chave se o CPF estiver milagrosamente vazio no Excel.
                     const keyId = cpfExcelRaw ? cpfExcelRaw : nomeExcel;
                     if (!groupedData[keyId]) {
                         groupedData[keyId] = [];
