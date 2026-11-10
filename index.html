@@ -397,10 +397,10 @@
             <div class="control-section">
                 <h3>2. Consultar Profissional</h3>
                 <div class="search-group" style="position: relative;">
-                    <input type="text" id="searchInput" placeholder="Nome, Matrícula ou CPF" disabled />
+                    <input type="text" id="searchInput" placeholder="Nome ou CPF" disabled />
                     <button id="btnSearch" class="btn" disabled>Consultar</button>
                     <div id="tooltip2" class="floating-tooltip">
-                        <strong>&#128161; Passo 2:</strong> Digite o Nome, a Matrícula ou o CPF e clique em Consultar.
+                        <strong>&#128161; Passo 2:</strong> Digite o Nome ou o CPF e clique em Consultar.
                     </div>
                 </div>
             </div>
@@ -430,10 +430,6 @@
                         <div class="info-item">
                             <span class="info-label">Nome Completo</span>
                             <span class="info-value" id="lblNome"></span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Matrícula</span>
-                            <span class="info-value" id="lblMatricula"></span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">CPF</span>
@@ -618,40 +614,28 @@
             
             if (!rawInput) return;
 
-            // Limpa o input do usuário para comparar apenas números ou letras
-            const cleanInput = rawInput.replace(/[^A-Z0-9]/g, '');
             const inputOnlyNumbers = rawInput.replace(/\D/g, '');
+            const hasLetters = /[A-ZÀ-Ú]/.test(rawInput);
 
             groupedData = {};
             
             globalData.forEach(row => {
                 const cpfExcelRaw = String(row.CPF_PROF || row.CPF || "").replace(/\D/g, '');
                 const nomeExcel = String(row.NOME_PROF || "").trim().toUpperCase();
-                
-                const matExcelRaw = String(row.MATRICULA || row.MAT_PROF || "").trim().toUpperCase();
-                const matExcelClean = matExcelRaw.replace(/[^A-Z0-9]/g, '');
 
                 let match = false;
                 
-                // 1. Verifica igualdade exata (com pontos e traços) no CPF ou Matrícula
-                if (rawInput === String(row.CPF_PROF || row.CPF || "").trim().toUpperCase() || rawInput === matExcelRaw) {
+                // 1. Busca por CPF numérico (só tenta se o usuário não digitou letras)
+                if (!hasLetters && inputOnlyNumbers.length > 0 && cpfExcelRaw === inputOnlyNumbers) {
                     match = true;
                 }
-                // 2. Verifica se bate o CPF numérico
-                else if (inputOnlyNumbers.length > 0 && cpfExcelRaw === inputOnlyNumbers) {
-                    match = true;
-                }
-                // 3. Verifica se bate a Matrícula limpa (sem pontos, traços ou espaços)
-                else if (cleanInput.length > 0 && matExcelClean === cleanInput) {
-                    match = true;
-                }
-                // 4. Verifica se bate parcialmente o Nome
-                else if (rawInput.length > 2 && nomeExcel.includes(rawInput)) {
+                // 2. Busca parcial pelo Nome (só tenta se o usuário digitou letras)
+                else if (hasLetters && rawInput.length > 2 && nomeExcel.includes(rawInput)) {
                     match = true;
                 }
 
                 if (match) {
-                    const keyId = cpfExcelRaw ? cpfExcelRaw : (matExcelClean ? matExcelClean : nomeExcel);
+                    const keyId = cpfExcelRaw ? cpfExcelRaw : nomeExcel;
                     if (!groupedData[keyId]) {
                         groupedData[keyId] = [];
                     }
@@ -681,7 +665,6 @@
             uniqueKeys.forEach(key => {
                 const dataSet = groupedData[key];
                 const nome = dataSet[0]['NOME_PROF'] || "Não identificado";
-                const matRaw = String(dataSet[0]['MATRICULA'] || dataSet[0]['MAT_PROF'] || "-").trim();
                 const rawCpf = String(dataSet[0]['CPF_PROF'] || dataSet[0]['CPF'] || "").replace(/\D/g, '');
                 const cpfFormatado = rawCpf ? rawCpf.padStart(11, '0').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4") : "Sem CPF";
                 
@@ -689,7 +672,7 @@
                 option.className = 'server-option';
                 option.innerHTML = `
                     <span class="server-name">${nome}</span>
-                    <span class="server-doc">Matrícula: ${matRaw} &nbsp;|&nbsp; CPF: ${cpfFormatado}</span>
+                    <span class="server-doc">CPF: ${cpfFormatado}</span>
                 `;
                 
                 option.onclick = function() {
@@ -709,7 +692,6 @@
             tbody.innerHTML = "";
 
             const nomeDoServidor = dfProf[0]['NOME_PROF'] || "Servidor(a) não identificado";
-            const rawMatricula = String(dfProf[0]['MATRICULA'] || dfProf[0]['MAT_PROF'] || "-").trim();
             const rawCpf = String(dfProf[0]['CPF_PROF'] || dfProf[0]['CPF'] || "").replace(/\D/g, '');
             const anoBase = Array.from(totalCompetencias)[0].substring(0, 4);
             const genero = getGenero(nomeDoServidor);
@@ -718,7 +700,6 @@
             document.getElementById('tituloSituacao').textContent = `Situação ${textoServidor} no CNES nas competências de ${anoBase}`;
             
             document.getElementById('lblNome').textContent = nomeDoServidor;
-            document.getElementById('lblMatricula').textContent = rawMatricula;
             
             if (rawCpf && rawCpf.length > 0) {
                 const cpfExibicao = rawCpf.padStart(11, '0');
