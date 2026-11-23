@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CONSULTA SERVIDOR PVD - SEMSA</title>
     
-    <!-- Biblioteca SheetJS para processar Excel -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    
     <!-- Biblioteca Html2Pdf para gerar o ficheiro PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -100,7 +97,7 @@
             line-height: 1.4;
             left: 0;
             top: 100%;
-            width: 260px;
+            width: 280px;
             text-align: left;
             animation: float1 1.5s infinite;
         }
@@ -117,14 +114,14 @@
             border-width: 0 8px 8px 8px; 
             border-color: transparent transparent #0284c7 transparent;
         }
-        #tooltip3 {
+        #tooltipPdf {
             top: auto; 
             bottom: 100%; 
             left: 50%; 
-            margin-left: -130px; 
+            margin-left: -140px; 
             animation: float3 1.5s infinite;
         }
-        #tooltip3::after {
+        #tooltipPdf::after {
             bottom: auto; 
             top: 100%; 
             left: 50%; 
@@ -142,14 +139,40 @@
         }
         .control-section { 
             flex: 1; 
-            min-width: 320px; 
+            min-width: 300px; 
             padding: 25px; 
             border-right: 1px solid #cbd5e1; 
             box-sizing: border-box; 
         }
+        .control-section.search-box { flex: 1.6; }
         .control-section:last-child { border-right: none; }
         
         h3 { font-size: 16px; font-weight: bold; margin-top: 0; color: #14171a; }
+
+        /* Seletor de Ano */
+        .year-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .year-btn {
+            padding: 9px 18px;
+            border-radius: 9999px;
+            border: 1.5px solid #034b75;
+            background: #ffffff;
+            color: #034b75;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .year-btn:hover { background: #e0f2fe; }
+        .year-btn.active {
+            background: #034b75;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(3, 75, 117, 0.3);
+        }
         
         /* Estilo da Entrada de Texto */
         input[type="text"] { 
@@ -174,20 +197,6 @@
             color: #94a3b8; 
         }
         
-        input[type="file"] { font-size: 14px; color: #657786; width: 100%; margin-bottom: 5px; }
-        input[type="file"]::file-selector-button {
-            padding: 8px 16px; 
-            border-radius: 9999px; 
-            border: 1px solid #1da1f2;
-            background-color: #ffffff; 
-            color: #1da1f2; 
-            font-weight: bold; 
-            cursor: pointer;
-            transition: 0.2s; 
-            margin-right: 10px;
-        }
-        input[type="file"]::file-selector-button:hover { background-color: #e8f5fd; }
-        
         /* Botões */
         .btn { 
             padding: 10px 24px; 
@@ -205,9 +214,9 @@
         .btn-success { background-color: #10b981; margin-top: 15px; font-size: 16px; }
         .btn-success:hover:not(:disabled) { background-color: #059669; }
         
-        .search-group { display: flex; gap: 10px; margin-top: 15px; }
-        .status { font-size: 13px; margin-top: 10px; font-weight: 500; }
-        .text-green { color: #17bf63; }
+        .search-group { display: flex; gap: 10px; margin-top: 12px; }
+        .status { font-size: 13px; margin-top: 12px; font-weight: 500; line-height: 1.4; }
+        .text-green { color: #15803d; }
         .text-red { color: #e0245e; }
         .text-gray { color: #657786; }
         
@@ -238,8 +247,6 @@
            ESTILOS DO RELATÓRIO PDF (Compacto e Proporcional)
            ========================================= */
         .results-section { padding: 0; min-height: 200px; }
-        #loading { display: none; margin-top: 10px; color: #1da1f2; font-size: 14px; font-weight: 500; }
-        
         .print-container-web { padding: 25px; }
         
         #printArea {
@@ -252,7 +259,6 @@
             box-sizing: border-box;
         }
 
-        /* Cabeçalho Oficial do PDF Compactado */
         .pdf-header {
             display: flex; 
             align-items: center; 
@@ -383,24 +389,18 @@
         
         <div class="controls-wrapper">
             <div class="control-section">
-                <h3>1. Carregar Base Consolidada (.xlsx)</h3>
-                <div style="position: relative;">
-                    <input type="file" id="fileInput" accept=".xlsx, .xls" />
-                    <div id="tooltip1" class="floating-tooltip active">
-                        <strong>&#128161; Passo 1:</strong> Clique em "Escolher arquivo" e selecione a base consolidada em Excel.
-                    </div>
-                </div>
-                <div id="loading">A ler e processar o ficheiro... Por favor, aguarde.</div>
-                <div id="uploadStatus" class="status text-gray">Nenhum ficheiro carregado.</div>
+                <h3>1. Competência / Ano da Base</h3>
+                <div id="yearSelector" class="year-selector"></div>
+                <div id="loadStatus" class="status text-gray">Carregando bases institucionais...</div>
             </div>
 
-            <div class="control-section">
+            <div class="control-section search-box">
                 <h3>2. Consultar Profissional</h3>
                 <div class="search-group" style="position: relative;">
                     <input type="text" id="searchInput" placeholder="Nome ou CPF" disabled />
                     <button id="btnSearch" class="btn" disabled>Consultar</button>
-                    <div id="tooltip2" class="floating-tooltip">
-                        <strong>&#128161; Passo 2:</strong> Digite o Nome ou o CPF e clique em Consultar.
+                    <div id="tooltipSearch" class="floating-tooltip">
+                        <strong>&#128161; Passo 1:</strong> Digite o Nome ou o CPF do servidor e clique em Consultar.
                     </div>
                 </div>
             </div>
@@ -473,8 +473,8 @@
             </div>
 
             <div id="btnDownloadArea" style="text-align: center; position: relative; display: none; padding-bottom: 25px;">
-                <div id="tooltip3" class="floating-tooltip">
-                    <strong>&#128161; Passo 3:</strong> Verifique os dados e clique aqui para baixar o PDF.
+                <div id="tooltipPdf" class="floating-tooltip">
+                    <strong>&#128161; Passo 2:</strong> Verifique os dados e clique aqui para baixar o PDF.
                 </div>
                 <button id="btnPdf" class="btn btn-success">
                     &#11015; Baixar Espelho em PDF
@@ -501,263 +501,269 @@
     </div>
     
     <script>
-        let globalData = [];
-        let totalCompetencias = new Set();
-        let groupedData = {};
+        // Para adicionar 2026 no futuro, basta incluir { ano: '2026', arquivo: 'base_2026.json' }
+        const BASES_CONFIG = [
+            { ano: '2024', arquivo: 'base_2024.json' },
+            { ano: '2025', arquivo: 'base_2025.json' }
+        ];
 
-        function showTooltip(stepNumber) {
-            document.getElementById('tooltip1').classList.remove('active');
-            document.getElementById('tooltip2').classList.remove('active');
-            document.getElementById('tooltip3').classList.remove('active');
-            
-            if (stepNumber) {
-                document.getElementById('tooltip' + stepNumber).classList.add('active');
+        const basesCarregadas = {}; // { '2024': { ano, total_registros, competencias, servidores } }
+        let anosDisponiveis = [];
+        let filtroAnoAtual = 'TODOS';
+        let resultadosAgrupados = {};
+
+        function showTooltip(id) {
+            document.getElementById('tooltipSearch').classList.remove('active');
+            document.getElementById('tooltipPdf').classList.remove('active');
+            if (id) {
+                document.getElementById(id).classList.add('active');
             }
         }
 
-        document.getElementById('fileInput').value = "";
-        document.getElementById('fileInput').addEventListener('change', handleFile);
-        document.getElementById('btnSearch').addEventListener('click', processSearch);
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') processSearch();
-        });
+        function removerAcentos(texto) {
+            return String(texto || "")
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toUpperCase()
+                .replace(/\s+/g, " ")
+                .trim();
+        }
 
         function getGenero(nome) {
             const primeiroNome = nome.trim().split(' ')[0].toUpperCase();
             const finaisFemininos = ['A', 'Z'];
-            const nomesFemininosComuns = ['ELIANE', 'ALINE', 'SIMONE', 'MICHELE', 'RAQUEL', 'ESTER', 'RUTH', 'CARMEM', 'CARMEN', 'MIRIAN', 'SUELEN', 'KAREN', 'IVONE', 'CLEIDE', 'LILIAN', 'IRIS', 'EVELIN', 'EVELYN', 'FRANCINE', 'ODETE'];
-            
+            const nomesFemininosComuns = [
+                'ELIANE', 'ALINE', 'SIMONE', 'MICHELE', 'RAQUEL', 'ESTER', 'RUTH',
+                'CARMEM', 'CARMEN', 'MIRIAN', 'SUELEN', 'KAREN', 'IVONE', 'CLEIDE',
+                'LILIAN', 'IRIS', 'EVELIN', 'EVELYN', 'FRANCINE', 'ODETE'
+            ];
             if (finaisFemininos.some(letra => primeiroNome.endsWith(letra)) || nomesFemininosComuns.includes(primeiroNome)) {
-                return 'F'; 
+                return 'F';
             }
-            return 'M'; 
+            return 'M';
         }
 
-        function formatExcelDate(excelDate) {
-            if (!excelDate) return "";
-            if (typeof excelDate === "string" && excelDate.includes("/")) return String(excelDate).trim();
-            
-            let num = parseFloat(excelDate);
-            if (!isNaN(num)) {
-                let utc_days = Math.floor(num - 25569);
-                let date_info = new Date(utc_days * 86400 * 1000);
-                let dataLocal = new Date(date_info.getTime() + (date_info.getTimezoneOffset() * 60000));
-                
-                let dia = String(dataLocal.getDate()).padStart(2, '0');
-                let mes = String(dataLocal.getMonth() + 1).padStart(2, '0');
-                let ano = dataLocal.getFullYear();
-                return `${dia}/${mes}/${ano}`;
-            }
-            return excelDate;
+        function formatarCPF(cpf) {
+            const digitos = String(cpf || "").replace(/\D/g, '');
+            if (!digitos) return "-";
+            return digitos.padStart(11, '0').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
         }
 
-        function handleFile(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        function criarBotoesAno() {
+            const container = document.getElementById('yearSelector');
+            container.innerHTML = "";
 
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('uploadStatus').textContent = "";
-            document.getElementById('searchInput').disabled = true;
-            document.getElementById('btnSearch').disabled = true;
-            document.getElementById('printArea').style.display = 'none';
-            document.getElementById('btnDownloadArea').style.display = 'none';
-            document.getElementById('selectionArea').style.display = 'none';
-            showTooltip(null); 
+            const opcoes = anosDisponiveis.length > 1
+                ? ['TODOS', ...anosDisponiveis]
+                : [...anosDisponiveis];
 
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                try {
-                    const data = new Uint8Array(event.target.result);
-                    const workbook = XLSX.read(data, {type: 'array'});
-                    const firstSheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[firstSheetName];
-                    
-                    globalData = XLSX.utils.sheet_to_json(worksheet, {defval: ""});
-                    
-                    totalCompetencias = new Set();
-                    globalData.forEach(row => {
-                        let val = String(row.CMPT_CNES).trim();
-                        if (val !== "" && val.toUpperCase() !== "CMPT_CNES" && !isNaN(val)) {
-                            totalCompetencias.add(val);
-                        }
-                    });
+            filtroAnoAtual = opcoes[0];
 
-                    document.getElementById('loading').style.display = 'none';
-                    
-                    if(globalData.length > 0) {
-                        document.getElementById('uploadStatus').innerHTML = `&#9989; Base carregada com sucesso! Identificadas ${totalCompetencias.size} competências e ${globalData.length.toLocaleString('pt-BR')} registos.`;
-                        document.getElementById('uploadStatus').className = "status text-green";
-                        document.getElementById('searchInput').disabled = false;
-                        document.getElementById('btnSearch').disabled = false;
-                        document.getElementById('searchInput').focus();
-                        showTooltip(2);
-                    } else {
-                        throw new Error("O ficheiro está vazio.");
+            opcoes.forEach(opcao => {
+                const btn = document.createElement('button');
+                btn.className = 'year-btn' + (opcao === filtroAnoAtual ? ' active' : '');
+                btn.textContent = opcao === 'TODOS' ? `Todos (${anosDisponiveis.join(' + ')})` : opcao;
+                btn.onclick = function() {
+                    filtroAnoAtual = opcao;
+                    document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    if (document.getElementById('searchInput').value.trim()) {
+                        processSearch();
                     }
-                } catch (error) {
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('uploadStatus').innerHTML = "&#10060; Erro ao ler o ficheiro.";
-                    document.getElementById('uploadStatus').className = "status text-red";
-                    showTooltip(1); 
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        async function carregarBasesAutomaticamente() {
+            const statusEl = document.getElementById('loadStatus');
+            const promessas = BASES_CONFIG.map(async cfg => {
+                const resp = await fetch(cfg.arquivo);
+                if (!resp.ok) throw new Error(`Arquivo ${cfg.arquivo} não encontrado`);
+                const json = await resp.json();
+                return { ano: cfg.ano, dados: json };
+            });
+
+            const resultados = await Promise.allSettled(promessas);
+            const resumos = [];
+
+            resultados.forEach(res => {
+                if (res.status === 'fulfilled') {
+                    const { ano, dados } = res.value;
+                    basesCarregadas[ano] = dados;
+                    anosDisponiveis.push(ano);
+                    resumos.push(`${ano} (${dados.total_registros.toLocaleString('pt-BR')} reg.)`);
                 }
-            };
-            reader.readAsArrayBuffer(file);
+            });
+
+            if (anosDisponiveis.length === 0) {
+                statusEl.innerHTML = "&#10060; Nenhuma base JSON encontrada no repositório (base_2024.json / base_2025.json).";
+                statusEl.className = "status text-red";
+                return;
+            }
+
+            anosDisponiveis.sort();
+            criarBotoesAno();
+
+            statusEl.innerHTML = `&#9989; Bases prontas: ${resumos.join(' &nbsp;|&nbsp; ')}`;
+            statusEl.className = "status text-green";
+
+            document.getElementById('searchInput').disabled = false;
+            document.getElementById('btnSearch').disabled = false;
+            document.getElementById('searchInput').focus();
+            showTooltip('tooltipSearch');
         }
 
         function processSearch() {
-            const rawInput = document.getElementById('searchInput').value.trim().toUpperCase();
+            const rawInput = document.getElementById('searchInput').value.trim();
             document.getElementById('printArea').style.display = 'none';
             document.getElementById('btnDownloadArea').style.display = 'none';
             document.getElementById('selectionArea').style.display = 'none';
             document.getElementById('serverList').innerHTML = "";
             document.querySelector('#resultTable tbody').innerHTML = "";
-            
+
             if (!rawInput) return;
 
-            const inputOnlyNumbers = rawInput.replace(/\D/g, '');
-            const inputCpfPad = inputOnlyNumbers ? inputOnlyNumbers.padStart(11, '0') : "";
-            const hasLetters = /[A-ZÀ-Ú]/.test(rawInput);
+            const inputLimpoNome = removerAcentos(rawInput);
+            const inputDigitos = rawInput.replace(/\D/g, '');
+            const inputCpfPad = inputDigitos ? inputDigitos.padStart(11, '0') : "";
+            const temLetras = /[A-Z]/.test(inputLimpoNome);
 
-            groupedData = {};
-            
-            globalData.forEach(row => {
-                let cpfExcelRaw = String(row.CPF_PROF || row.CPF || "").replace(/\D/g, '');
-                
-                // O SEGREDO DA UNIFICAÇÃO: Padronizamos sempre para 11 dígitos, ignorando se o Excel apagou o zero ou não.
-                if (cpfExcelRaw) cpfExcelRaw = cpfExcelRaw.padStart(11, '0');
-                
-                const nomeExcel = String(row.NOME_PROF || "").trim().replace(/\s+/g, ' ').toUpperCase();
-                const inputClean = rawInput.replace(/\s+/g, ' ');
+            const anosParaBuscar = filtroAnoAtual === 'TODOS' ? anosDisponiveis : [filtroAnoAtual];
+            resultadosAgrupados = {};
 
-                let match = false;
-                
-                // 1. Busca pelo CPF exato formatado
-                if (!hasLetters && inputCpfPad.length > 0 && cpfExcelRaw === inputCpfPad) {
-                    match = true;
-                }
-                // 2. Busca pelo Nome parcial
-                else if (hasLetters && inputClean.length > 2 && nomeExcel.includes(inputClean)) {
-                    match = true;
-                }
+            anosParaBuscar.forEach(ano => {
+                const base = basesCarregadas[ano];
+                if (!base || !base.servidores) return;
 
-                if (match) {
-                    const keyId = cpfExcelRaw ? cpfExcelRaw : nomeExcel;
-                    if (!groupedData[keyId]) {
-                        groupedData[keyId] = [];
+                base.servidores.forEach(srv => {
+                    const cpfSrv = srv.c ? String(srv.c).padStart(11, '0') : "";
+                    const nomeSrv = removerAcentos(srv.n);
+
+                    let match = false;
+                    if (!temLetras && inputCpfPad && cpfSrv === inputCpfPad) {
+                        match = true;
+                    } else if (temLetras && inputLimpoNome.length > 2 && nomeSrv.includes(inputLimpoNome)) {
+                        match = true;
                     }
-                    groupedData[keyId].push(row);
-                }
+
+                    if (match) {
+                        const keyId = cpfSrv || nomeSrv;
+                        if (!resultadosAgrupados[keyId]) {
+                            resultadosAgrupados[keyId] = {
+                                n: srv.n,
+                                c: cpfSrv,
+                                cbo: srv.cbo,
+                                desc: srv.desc,
+                                desl: srv.desl || "",
+                                r: [...srv.r]
+                            };
+                        } else {
+                            // Unifica competências de múltiplos anos para o mesmo servidor
+                            resultadosAgrupados[keyId].r.push(...srv.r);
+                            if (srv.desl) resultadosAgrupados[keyId].desl = srv.desl;
+                            if (srv.cbo && srv.cbo !== "-") resultadosAgrupados[keyId].cbo = srv.cbo;
+                            if (srv.desc && srv.desc !== "-") resultadosAgrupados[keyId].desc = srv.desc;
+                        }
+                    }
+                });
             });
 
-            const uniqueServers = Object.keys(groupedData);
+            const chaves = Object.keys(resultadosAgrupados);
 
-            if (uniqueServers.length === 0) {
-                alert("Nenhum servidor encontrado com os dados informados.");
-                showTooltip(2);
+            if (chaves.length === 0) {
+                alert("Nenhum servidor encontrado para o período selecionado.");
+                showTooltip('tooltipSearch');
                 return;
             }
 
-            if (uniqueServers.length === 1) {
-                renderReport(groupedData[uniqueServers[0]]);
+            if (chaves.length === 1) {
+                renderReport(resultadosAgrupados[chaves[0]]);
             } else {
-                showSelectionList(uniqueServers);
+                showSelectionList(chaves);
             }
         }
 
-        function showSelectionList(uniqueKeys) {
+        function showSelectionList(chaves) {
             const serverList = document.getElementById('serverList');
             const selectionArea = document.getElementById('selectionArea');
-            
-            uniqueKeys.forEach(key => {
-                const dataSet = groupedData[key];
-                const nome = dataSet[0]['NOME_PROF'] || "Não identificado";
-                const rawCpf = String(dataSet[0]['CPF_PROF'] || dataSet[0]['CPF'] || "").replace(/\D/g, '');
-                const cpfFormatado = rawCpf ? rawCpf.padStart(11, '0').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4") : "Sem CPF";
-                
+
+            chaves.sort((a, b) => resultadosAgrupados[a].n.localeCompare(resultadosAgrupados[b].n));
+
+            chaves.forEach(key => {
+                const srv = resultadosAgrupados[key];
                 const option = document.createElement('div');
                 option.className = 'server-option';
                 option.innerHTML = `
-                    <span class="server-name">${nome}</span>
-                    <span class="server-doc">CPF: ${cpfFormatado}</span>
+                    <span class="server-name">${srv.n}</span>
+                    <span class="server-doc">CPF: ${formatarCPF(srv.c)}</span>
                 `;
-                
                 option.onclick = function() {
                     selectionArea.style.display = 'none';
-                    renderReport(dataSet);
+                    renderReport(srv);
                 };
-                
                 serverList.appendChild(option);
             });
-            
+
             selectionArea.style.display = 'block';
             showTooltip(null);
         }
 
-        function renderReport(dfProf) {
+        function renderReport(srv) {
             const tbody = document.querySelector('#resultTable tbody');
             tbody.innerHTML = "";
 
-            const nomeDoServidor = dfProf[0]['NOME_PROF'] || "Servidor(a) não identificado";
-            const rawCpf = String(dfProf[0]['CPF_PROF'] || dfProf[0]['CPF'] || "").replace(/\D/g, '');
-            const anoBase = Array.from(totalCompetencias)[0].substring(0, 4);
-            const genero = getGenero(nomeDoServidor);
-            const textoServidor = genero === 'F' ? "da servidora" : "do servidor";
-            
-            document.getElementById('tituloSituacao').textContent = `Situação ${textoServidor} no CNES nas competências de ${anoBase}`;
-            
-            document.getElementById('lblNome').textContent = nomeDoServidor;
-            
-            if (rawCpf && rawCpf.length > 0) {
-                const cpfExibicao = rawCpf.padStart(11, '0');
-                document.getElementById('lblCPF').textContent = cpfExibicao.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-            } else {
-                document.getElementById('lblCPF').textContent = "-";
-            }
-            
-            document.getElementById('lblCBO').textContent = String(dfProf[0]['COD_CBO'] || "-").trim();
-            document.getElementById('lblDescricaoCBO').textContent = String(dfProf[0]['DESCRICAO'] || "-").trim();
+            // Ordena todas as linhas pela competência (índice 0)
+            srv.r.sort((a, b) => String(a[0]).localeCompare(String(b[0])));
 
-            let dtDesligamento = "";
-            for (let i = 0; i < dfProf.length; i++) {
-                let valDT = dfProf[i]['DT_DESLIGAMENTO'] || dfProf[i]['DATA_DESLIGAMENTO'] || "";
-                if (String(valDT).trim() !== "") {
-                    dtDesligamento = formatExcelDate(valDT);
-                    break;
-                }
-            }
+            const anosEncontrados = Array.from(new Set(srv.r.map(linha => String(linha[0]).substring(0, 4)))).sort();
+            const textoAnos = anosEncontrados.length > 1
+                ? anosEncontrados.slice(0, -1).join(', ') + ' e ' + anosEncontrados[anosEncontrados.length - 1]
+                : (anosEncontrados[0] || filtroAnoAtual);
+
+            const genero = getGenero(srv.n);
+            const textoServidor = genero === 'F' ? "da servidora" : "do servidor";
+
+            document.getElementById('tituloSituacao').textContent = `Situação ${textoServidor} no CNES nas competências de ${textoAnos}`;
+            document.getElementById('lblNome').textContent = srv.n;
+            document.getElementById('lblCPF').textContent = formatarCPF(srv.c);
+            document.getElementById('lblCBO').textContent = srv.cbo || "-";
+            document.getElementById('lblDescricaoCBO').textContent = srv.desc || "-";
 
             const boxDesligamento = document.getElementById('boxDesligamento');
-            if (dtDesligamento !== "") {
-                document.getElementById('lblDesligamento').textContent = dtDesligamento;
+            if (srv.desl) {
+                document.getElementById('lblDesligamento').textContent = srv.desl;
                 boxDesligamento.style.display = 'flex';
             } else {
                 boxDesligamento.style.display = 'none';
             }
 
-            dfProf.sort((a, b) => String(a.CMPT_CNES).localeCompare(String(b.CMPT_CNES)));
-            
-            const colunas = ['CMPT_CNES', 'DISTRITO', 'CNES', 'EAS', 'DESCRICAO', 'COD_CBO', 'INE', 'EQUIPE', 'TIPO'];
-            
-            dfProf.forEach(row => {
+            srv.r.forEach(linha => {
                 const tr = document.createElement('tr');
-                colunas.forEach(col => {
+                linha.forEach(valor => {
                     const td = document.createElement('td');
-                    td.textContent = (row[col] !== undefined && String(row[col]).trim() !== "") ? row[col] : "-";
+                    td.textContent = valor || "-";
                     tr.appendChild(td);
                 });
                 tbody.appendChild(tr);
             });
-            
+
             document.getElementById('printArea').style.display = 'block';
             document.getElementById('btnDownloadArea').style.display = 'block';
-            showTooltip(3);
+            showTooltip('tooltipPdf');
         }
+
+        document.getElementById('btnSearch').addEventListener('click', processSearch);
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') processSearch();
+        });
 
         document.getElementById('btnPdf').addEventListener('click', function() {
             showTooltip(null);
             
             const element = document.getElementById('printArea');
             const nomeProf = document.getElementById('lblNome').textContent.replace(/\s+/g, '_');
+            const sufixoAno = filtroAnoAtual === 'TODOS' ? anosDisponiveis.join('_') : filtroAnoAtual;
             const tableDiv = document.getElementById('tableContainer');
             
             if (tableDiv) tableDiv.style.overflowX = 'visible';
@@ -776,7 +782,7 @@
             
             const opt = {
                 margin:       0,
-                filename:     `Consulta_CNES_${nomeProf}.pdf`,
+                filename:     `Consulta_CNES_${nomeProf}_${sufixoAno}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { 
                     scale: 2, 
@@ -798,6 +804,9 @@
                 element.style.minHeight = originalMinHeight;
             });
         });
+
+        // Inicia o carregamento automático ao abrir a página
+        window.addEventListener('DOMContentLoaded', carregarBasesAutomaticamente);
     </script>
 </body>
 </html>
